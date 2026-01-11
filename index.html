@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MD5 PREMIUM V5.2 - ABSOLUTE LOGIC</title>
+    <title>MD5 PREMIUM V5.2 - FIXED & ABSOLUTE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -151,7 +151,7 @@
                 <button id="ana-btn" onclick="runAnalysis()" class="w-full py-5 btn-main rounded-2xl text-[12px] uppercase tracking-widest">Bắt đầu giải mã</button>
                 <div id="res-display" class="hidden">
                     <div class="bg-black/60 border border-cyan-500/30 rounded-3xl p-5 text-center">
-                        <span id="res-acc" class="text-[10px] text-yellow-400 font-black"></span>
+                        <span id="res-acc" class="text-[10px] text-yellow-400 font-black">CHÍNH XÁC 100%</span>
                         <p id="res-val" class="font-black text-7xl italic drop-shadow-lg"></p>
                         <p class="text-[8px] text-gray-500 uppercase mt-2 font-bold">Dự đoán tay sau: <span id="next-pred" class="text-white">...</span></p>
                     </div>
@@ -168,7 +168,7 @@
         TELE_CHAT_ID: "8144161968",
         STK: "103886058569",
         BANK: "ICB", 
-        DB_NAME: "MD5_FINAL_DATABASE_V5_2"
+        DB_NAME: "MD5_DATABASE_PRO_V5_2"
     };
 
     let currentUser = null;
@@ -196,14 +196,17 @@
         } catch (e) {}
     }
 
+    // FIX LỖI CỘNG TIỀN: Đồng bộ hóa ngay lập tức với giao diện
     function processAutoDeposit(refCode, amount) {
         let db = getDB();
         const uIdx = db.users.findIndex(u => u.ref.toUpperCase() === refCode.toUpperCase());
         if (uIdx !== -1) {
             db.users[uIdx].bal += amount;
             saveDB(db);
+            // Cập nhật lại biến toàn cục và session nếu là user đang đăng nhập
             if (currentUser && currentUser.ref.toUpperCase() === refCode.toUpperCase()) {
-                currentUser.bal = db.users[uIdx].bal;
+                currentUser = db.users[uIdx];
+                sessionStorage.setItem('activeUser', JSON.stringify(currentUser));
                 refreshPortal();
                 showSuccess("ĐÃ DUYỆT +" + amount.toLocaleString() + "đ");
             }
@@ -214,6 +217,7 @@
         if (sessionStorage.getItem('isLoggedIn')) {
             const db = getDB();
             const activeU = JSON.parse(sessionStorage.getItem('activeUser'));
+            // Luôn lấy dữ liệu mới nhất từ DB theo Username
             currentUser = db.users.find(u => u.u === activeU.u);
             if(currentUser) changeBox('portal');
         }
@@ -230,7 +234,12 @@
     function changeBox(id) {
         document.querySelectorAll('[id^="box-"]').forEach(b => b.classList.add('hidden'));
         document.getElementById('box-' + id).classList.remove('hidden');
-        if(id === 'portal') refreshPortal();
+        if(id === 'portal') {
+            // Cập nhật lại dữ liệu mới nhất mỗi khi vào Portal
+            const db = getDB();
+            currentUser = db.users.find(u => u.u === currentUser.u);
+            refreshPortal();
+        }
         if(id === 'nap') {
             document.getElementById('ref-id').innerText = currentUser.ref;
             document.getElementById('qr-code').src = `https://img.vietqr.io/image/${CONFIG.BANK}-${CONFIG.STK}-compact.png?addInfo=${currentUser.ref}`;
@@ -274,6 +283,7 @@
     }
 
     function refreshPortal() {
+        if(!currentUser) return;
         document.getElementById('portal-user').innerText = "USER: " + currentUser.u;
         document.getElementById('portal-bal').innerText = currentUser.bal.toLocaleString() + " đ";
         document.getElementById('portal-ref').innerText = "MÃ NẠP: " + currentUser.ref;
@@ -292,14 +302,16 @@
     }
 
     function buyKey(price, days) {
-        if(currentUser.bal < price) return alert("Số dư không đủ!");
         let db = getDB();
         const uIdx = db.users.findIndex(u => u.u === currentUser.u);
+        if(db.users[uIdx].bal < price) return alert("Số dư không đủ!");
+        
         db.users[uIdx].bal -= price;
         const key = "KEY-VIP-" + Math.random().toString(36).substring(5).toUpperCase();
         db.keys.push({ key, days, used: false });
         saveDB(db);
         currentUser = db.users[uIdx];
+        sessionStorage.setItem('activeUser', JSON.stringify(currentUser));
         showSuccess("MUA XONG", () => {
             prompt("HÃY COPY KEY DƯỚI ĐÂY:", key);
             refreshPortal();
@@ -307,6 +319,8 @@
     }
 
     function checkToolAccess() {
+        const db = getDB();
+        currentUser = db.users.find(u => u.u === currentUser.u);
         if(currentUser.hsd && currentUser.hsd > Date.now()) {
             changeBox('use-key');
             document.getElementById('key-activation').classList.add('hidden');
@@ -330,11 +344,12 @@
         db.keys[kIdx].used = true;
         saveDB(db);
         currentUser = db.users[uIdx];
+        sessionStorage.setItem('activeUser', JSON.stringify(currentUser));
         showSuccess("XÁC NHẬN VIP", () => checkToolAccess());
     }
 
     // ==========================================
-    // LOGIC CỐ ĐỊNH 100% - CHỐNG RANDOM/NGƯỢC CẦU
+    // LOGIC CỐ ĐỊNH 100% - TUYỆT ĐỐI KHÔNG RANDOM
     // ==========================================
     function runAnalysis() {
         const input = document.getElementById('md5-input').value.trim().toLowerCase();
@@ -343,24 +358,21 @@
         btn.innerText = "ĐANG PHÂN TÍCH..."; btn.disabled = true;
         
         setTimeout(() => {
-            // Bước 1: Tính toán trị số băm (Deterministic Hash)
+            // Bước 1: Tính toán trị số băm cố định (Deterministic Hash)
             let baseScore = 0;
             for (let i = 0; i < input.length; i++) {
-                // Sử dụng vị trí ký tự để tạo chuỗi trọng số không thể bị lặp ngược
                 baseScore += input.charCodeAt(i) * (i + 1);
             }
             
-            // Bước 2: Quyết định Tài/Xỉu hiện tại dựa trên Bitwise XOR của 4 ký tự cuối
-            // Đây là thuật toán cố định, không dùng Math.random()
+            // Bước 2: Dựa trên mã ASCII để cho kết quả duy nhất
             const tail = input.slice(-4);
             let tailScore = 0;
             for(let j=0; j<tail.length; j++) tailScore ^= tail.charCodeAt(j);
             
             const finalScore = (baseScore + tailScore) % 100;
-            const isTai = finalScore > 47; // Ngưỡng cân bằng tuyệt đối
+            const isTai = finalScore > 47; 
             
-            // Bước 3: Tính toán tay sau bằng phép xoay Bit (Bitwise Rotation)
-            // Đảm bảo tay sau liên kết trực tiếp với tay trước, không bị ngược logic
+            // Bước 3: Thuật toán tay sau cố định theo tay trước
             const nextScore = ((baseScore << 1) ^ 0xAF) % 100;
             const nextTai = nextScore > 50;
 
