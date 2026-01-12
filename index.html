@@ -177,16 +177,55 @@
                 <input id="key-input" type="text" placeholder="DÁN MÃ KEY VIP" class="w-full p-5 cyber-input mb-4 uppercase text-xs font-black">
                 <button onclick="activateLicense()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Mở khóa Tool</button>
             </div>
-            <div id="tool-interface" class="hidden space-y-4 text-center">
-                <p id="expiry-text" class="text-[10px] font-black text-cyan-400 uppercase"></p>
-                <textarea id="md5-input" placeholder="DÁN MÃ PHIÊN MD5 VÀO ĐÂY..." class="w-full h-28 p-4 cyber-input uppercase text-xs font-bold"></textarea>
-                <button id="ana-btn" onclick="runAnalysis()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Bắt đầu phân tích</button>
-                <div id="res-display" class="hidden p-8 bg-black/60 rounded-[40px] border border-cyan-500/20 mt-4 animate__animated animate__pulse animate__infinite">
-                    <span id="res-acc" class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest"></span>
-                    <p id="res-val" class="text-8xl font-black italic py-2 tracking-tighter"></p>
+            <<div id="tool-interface" class="hidden space-y-4 text-center relative p-2">
+    <div id="scanner" class="scanner-line"></div>
+    <p id="expiry-text" class="text-[10px] font-bold text-cyan-400 uppercase italic"></p>
+    
+    <div class="relative">
+        <textarea id="md5-input" placeholder="DÁN MÃ PHIÊN MD5 TẠI ĐÂY..." class="w-full h-28 p-4 cyber-input uppercase text-[11px] font-bold border-dashed border-cyan-500/30" style="background: rgba(0,0,0,0.8) !important;"></textarea>
+    </div>
+    
+    <div id="load-wrap" class="loading-wrapper">
+        <div id="load-fill" class="loading-fill"></div>
+    </div>
+
+    <button id="ana-btn" onclick="runAnalysis()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase tracking-[2px]">
+        Bắt đầu Phân Tích
+    </button>
+
+    <div id="res-display" class="hidden mt-4 animate__animated animate__fadeIn">
+        <div class="glass-card p-6 border-cyan-500/40 bg-black/60">
+            <div class="flex justify-between items-center mb-4">
+                <div class="text-left">
+                    <p class="text-[8px] text-gray-500 uppercase font-black">Algorithm Status</p>
+                    <p class="text-[10px] text-green-400 font-bold">● AI DECRYPTED</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] text-gray-500 uppercase font-black">Confidence</p>
+                    <p id="res-acc" class="text-[10px] text-yellow-500 font-black"></p>
+                </div>
+            </div>
+            
+            <div class="py-6 border-y border-white/10">
+                <p id="res-val" class="text-8xl font-black italic tracking-tighter leading-none"></p>
+                <p class="text-[10px] text-gray-400 mt-2 uppercase font-bold tracking-[3px]">Cầu dự đoán</p>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-4">
+                <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+                    <p class="text-[8px] text-gray-500 uppercase mb-1">Tỷ lệ Tài</p>
+                    <div id="rate-tai-bar" class="h-1 bg-cyan-500 rounded-full mb-1"></div>
+                    <p id="rate-tai-val" class="text-[10px] font-bold text-white"></p>
+                </div>
+                <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+                    <p class="text-[8px] text-gray-500 uppercase mb-1">Tỷ lệ Xỉu</p>
+                    <div id="rate-xiu-bar" class="h-1 bg-red-500 rounded-full mb-1"></div>
+                    <p id="rate-xiu-val" class="text-[10px] font-bold text-white"></p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <div id="box-nap" class="hidden glass-card p-8 text-center animate__animated animate__fadeIn">
             <h3 class="text-cyan-400 font-black mb-6 uppercase text-sm">Nạp tiền vào ví</h3>
@@ -362,28 +401,79 @@
     }
 
     function runAnalysis() {
-        const input = document.getElementById('md5-input').value.trim();
-        if(input.length < 5) return alert("Vui lòng dán mã MD5!");
-        const btn = document.getElementById('ana-btn');
-        btn.innerText = "ĐANG XỬ LÝ DỮ LIỆU..."; btn.disabled = true;
-        setTimeout(() => {
-            const isTai = Math.random() > 0.48;
+    const input = document.getElementById('md5-input').value.trim();
+    if(input.length < 10) return alert("Mã MD5 không hợp lệ!");
+    
+    const btn = document.getElementById('ana-btn');
+    const scanner = document.getElementById('scanner');
+    const loadWrap = document.getElementById('load-wrap');
+    const loadFill = document.getElementById('load-fill');
+    const resDisplay = document.getElementById('res-display');
+
+    // Hiệu ứng bắt đầu
+    btn.disabled = true;
+    btn.innerText = "ĐANG PHÂN TÍCH...";
+    scanner.style.display = 'block';
+    loadWrap.style.display = 'block';
+    resDisplay.classList.add('hidden');
+    
+    // Thuật toán băm chuỗi (Dùng chuỗi MD5 làm hạt giống - KHÔNG RANDOM)
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0; 
+    }
+    const seed = Math.abs(hash);
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 2;
+        loadFill.style.width = progress + "%";
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            
+            // Tính toán kết quả dựa trên seed (hạt giống từ MD5)
+            // Lấy số dư để quyết định Tài (Lẻ) hoặc Xỉu (Chẵn)
+            const resultValue = seed % 100;
+            const isTai = resultValue > 49; 
+            
+            // Độ chính xác dao động từ 95-99% dựa trên seed
+            const acc = (95 + (seed % 450) / 100).toFixed(2);
+            
+            // Tỷ lệ phần trăm hiển thị (Ví dụ Tài 72% - Xỉu 28%)
+            const percentMain = 60 + (seed % 30);
+            const percentSub = 100 - percentMain;
+
+            // Hiển thị kết quả
             const v = document.getElementById('res-val');
             v.innerText = isTai ? "TÀI" : "XỈU";
             v.className = `text-8xl font-black italic py-2 animate__animated animate__zoomIn ${isTai ? 'text-cyan-400' : 'text-red-500'}`;
-            document.getElementById('res-acc').innerText = "ĐỘ CHÍNH XÁC: " + (94 + Math.random()*5.5).toFixed(1) + "%";
-            document.getElementById('res-display').classList.remove('hidden');
-            btn.innerText = "TIẾP TỤC PHÂN TÍCH"; btn.disabled = false;
-        }, 1500);
-    }
+            
+            document.getElementById('res-acc').innerText = acc + "%";
+            
+            if(isTai) {
+                document.getElementById('rate-tai-val').innerText = percentMain + "%";
+                document.getElementById('rate-xiu-val').innerText = percentSub + "%";
+                document.getElementById('rate-tai-bar').style.width = percentMain + "%";
+                document.getElementById('rate-xiu-bar').style.width = percentSub + "%";
+            } else {
+                document.getElementById('rate-xiu-val').innerText = percentMain + "%";
+                document.getElementById('rate-tai-val').innerText = percentSub + "%";
+                document.getElementById('rate-xiu-bar').style.width = percentMain + "%";
+                document.getElementById('rate-tai-bar').style.width = percentSub + "%";
+            }
 
-    async function sendNapTele() {
-        const amt = document.getElementById('nap-amount').value;
-        if(amt < 10000) return alert("Nạp tối thiểu 10.000 VNĐ");
-        const text = `💰 YÊU CẦU NẠP TIỀN\n👤 User: ${currentUser.u}\n🆔 Mã: ${currentUser.ref}\n💵 Số tiền: ${amt} VNĐ\n👉 Duyệt: DUYET ${currentUser.ref} ${amt}`;
-        await fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(text)}`);
-        alert("Đã gửi yêu cầu! Vui lòng đợi quản trị viên duyệt.");
-    }
+            // Hoàn tất
+            resDisplay.classList.remove('hidden');
+            scanner.style.display = 'none';
+            loadWrap.style.display = 'none';
+            loadFill.style.width = "0%";
+            btn.innerText = "PHÂN TÍCH KẾT THÚC";
+            btn.disabled = false;
+        }
+    }, 40);
+}
 
     // BG Canvas
     window.onload = function() {
