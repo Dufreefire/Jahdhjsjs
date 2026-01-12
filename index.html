@@ -3,12 +3,12 @@
 <head>              
     <meta charset="UTF-8">              
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">              
-    <title>PHẦN MỀM MD5 PRO - PHIÊN BẢN 2026</title>              
+    <title>MD5 ULTIMATE PRO 2026</title>              
     <script src="https://cdn.tailwindcss.com"></script>              
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>              
     <style>              
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');              
-        :root { --main: #00f2ff; --sub: #7000ff; --dark: #020205; --weak: #ff4d4d; --medium: #fbbf24; --strong: #10b981; }              
+        :root { --main: #00f2ff; --sub: #7000ff; --dark: #020205; --weak: #ff4d4d; --medium: #fbbf24; --strong: #10b981; --gold: #ffd700; }              
                 
         * { -webkit-user-select: none; user-select: none; box-sizing: border-box; outline: none !important; }              
         input, textarea { -webkit-user-select: auto !important; user-select: auto !important; }        
@@ -17,43 +17,28 @@
         #bg-canvas { position: fixed; inset: 0; z-index: -1; }              
         
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.1); backdrop-filter: blur(20px); border-radius: 35px; }              
-        .btn-main { background: linear-gradient(135deg, var(--main) 0%, var(--sub) 100%); color: white; font-weight: 800; cursor: pointer; transition: 0.3s; }              
+        .btn-main { background: linear-gradient(135deg, var(--main) 0%, var(--sub) 100%); color: white; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }              
         .btn-main:active { transform: scale(0.95); }
 
-        /* Nút Hỗ Trợ Telegram */
-        .btn-support { 
-            position: fixed; bottom: 100px; right: 20px; z-index: 1001; 
-            background: #24A1DE; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(36, 161, 222, 0.5);
-            animation: pulse-blue 2s infinite;
-        }
-        @keyframes pulse-blue {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36, 161, 222, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(36, 161, 222, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36, 161, 222, 0); }
-        }
+        /* Nút Hỗ Trợ */
+        .btn-support { position: fixed; bottom: 100px; right: 20px; z-index: 1001; background: #24A1DE; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(36, 161, 222, 0.5); animation: pulse-blue 2s infinite; }
+        @keyframes pulse-blue { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36, 161, 222, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(36, 161, 222, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36, 161, 222, 0); } }
 
-        /* Độ mạnh mật khẩu */
-        .strength-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 8px; overflow: hidden; display: none; }
-        .strength-bar { height: 100%; width: 0%; transition: 0.5s all; }
-        .strength-label { font-size: 9px; font-weight: 900; text-transform: uppercase; margin-top: 4px; display: block; }
+        /* Giao diện mua hàng & Thông báo */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .cyber-modal { background: #0a0a0f; border: 1px solid var(--main); border-radius: 30px; width: 100%; max-width: 340px; padding: 30px; text-align: center; box-shadow: 0 0 50px rgba(0, 242, 255, 0.2); }
+        
+        .key-box { border: 2px dashed var(--main); background: rgba(0, 242, 255, 0.05); padding: 15px; border-radius: 15px; font-family: monospace; font-size: 18px; color: var(--main); letter-spacing: 2px; margin: 15px 0; position: relative; }
 
-        /* Avatar Lục Giác */
-        .profile-hex { width: 110px; height: 110px; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); background: linear-gradient(var(--main), var(--sub)); padding: 3px; margin: 0 auto; }
-        .profile-hex img { width: 100%; height: 100%; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); object-fit: cover; background: var(--dark); }
-
-        /* Điều hướng */
+        /* Thanh điều hướng */
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 80px; background: rgba(10,10,15,0.95); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 1000; padding-bottom: 10px; }
-        .nav-item { color: #444; text-align: center; font-size: 10px; font-weight: 900; transition: 0.3s; cursor: pointer; text-transform: uppercase; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
+        .nav-item { color: #444; text-align: center; font-size: 9px; font-weight: 900; transition: 0.3s; cursor: pointer; text-transform: uppercase; }
         .nav-item.active { color: var(--main); text-shadow: 0 0 10px var(--main); }
         .nav-center { width: 60px; height: 60px; background: linear-gradient(135deg, var(--main), var(--sub)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3); color: white; transform: translateY(-20px) rotate(45deg); }
-        .nav-center span { transform: rotate(-45deg); font-size: 24px; font-weight: bold; }
+        .nav-center span { transform: rotate(-45deg); font-size: 24px; }
 
-        .cyber-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 12px; color: var(--main); width: 100%; text-align: center; font-weight: 600; }
-        
-        .result-text { font-size: 70px; font-weight: 900; italic; text-shadow: 0 0 20px currentColor; }
+        .cyber-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 14px; color: white; width: 100%; text-align: center; transition: 0.3s; }
+        .cyber-input:focus { border-color: var(--main); background: rgba(0, 242, 255, 0.05); }
     </style>              
 </head>              
 <body>              
@@ -64,11 +49,9 @@
     <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.88.03-.24.37-.48 1.02-.74 4-1.74 6.67-2.88 8.01-3.43 3.81-1.58 4.6-.1.85 4.6z"/></svg>
 </a>
 
-<div id="success-screen" class="fixed inset-0 bg-black/90 z-[10000] hidden flex-col items-center justify-center animate__animated animate__fadeIn">              
-    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center animate__animated animate__zoomIn">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    </div>
-    <h2 id="success-text" class="mt-6 text-xl font-bold uppercase tracking-widest text-white text-center px-4"></h2>
+<div id="modal-container" class="modal-overlay">
+    <div id="modal-content" class="cyber-modal animate__animated animate__zoomIn">
+        </div>
 </div>
 
 <div class="flex items-center justify-center min-h-screen p-4 pb-24">              
@@ -76,87 +59,58 @@
         
         <div id="box-login" class="glass-card p-8 animate__animated animate__fadeIn">              
             <div class="text-center mb-10">
-                <h1 class="text-3xl font-black italic tracking-tighter">TOOL TÀI XỈU <span class="text-cyan-400">MD5</span></h1>
-                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-[3px]">Công Nghệ Phân Tích 2026</p>
+                <h1 class="text-3xl font-black italic tracking-tighter text-white">TOOL TÀI XỈU <span class="text-cyan-400">MD5</span></h1>
+                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-[4px]">Hệ Thống Phân Tích 2026</p>
             </div>
             <div class="space-y-4">              
-                <input id="u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="cyber-input uppercase">              
+                <input id="u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="cyber-input uppercase font-bold">              
                 <input id="p" type="password" placeholder="MẬT KHẨU" class="cyber-input">              
-                <button onclick="doLogin()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase">Đăng Nhập Hệ Thống</button>              
-                <p onclick="navigateTo('reg')" class="text-center text-[10px] text-gray-500 uppercase font-bold cursor-pointer mt-4">Chưa có tài khoản? Đăng ký ngay</p>
+                <button onclick="doLogin()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase">Đăng Nhập</button>              
+                <p onclick="navigateTo('reg')" class="text-center text-[10px] text-gray-500 uppercase font-bold cursor-pointer mt-4">Đăng ký tài khoản mới</p>
             </div>              
         </div>              
               
         <div id="box-reg" class="hidden glass-card p-8 animate__animated animate__fadeIn">              
-            <h2 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Tạo Tài Khoản Mới</h2>              
+            <h2 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Tạo Tài Khoản</h2>              
             <div class="space-y-3">              
                 <input id="r-u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="cyber-input uppercase">              
                 <input id="r-email" type="email" placeholder="ĐỊA CHỈ GMAIL" class="cyber-input">
                 <input id="r-phone" type="tel" placeholder="SỐ ĐIỆN THOẠI" class="cyber-input">
-                
-                <div class="relative">
-                    <input id="r-p" type="password" oninput="validatePass(this.value)" placeholder="MẬT KHẨU" class="cyber-input">
-                    <div id="str-container" class="strength-container">
-                        <div id="str-bar" class="strength-bar"></div>
-                    </div>
-                    <span id="str-label" class="strength-label"></span>
-                </div>
-
+                <input id="r-p" type="password" placeholder="MẬT KHẨU" class="cyber-input">
                 <input id="r-p2" type="password" placeholder="XÁC NHẬN MẬT KHẨU" class="cyber-input">
-                <button onclick="doReg()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase mt-4">Xác Nhận Đăng Ký</button>              
-                <p onclick="navigateTo('login')" class="text-center text-[10px] text-gray-400 uppercase mt-4 cursor-pointer">Quay lại Đăng nhập</p>              
+                <button onclick="doReg()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase mt-4">Đăng Ký Ngay</button>              
+                <p onclick="navigateTo('login')" class="text-center text-[10px] text-gray-400 uppercase mt-4 cursor-pointer">Quay lại đăng nhập</p>              
             </div>              
         </div>              
 
         <div id="box-portal" class="hidden animate__animated animate__fadeIn">              
-            <div class="glass-card p-6 mb-4 flex items-center justify-between border-none bg-gradient-to-r from-cyan-500/10 to-transparent">
-                <div>
-                    <p class="text-[9px] text-cyan-400 font-bold uppercase">Người dùng</p>
-                    <h3 id="portal-user" class="text-2xl font-black uppercase"></h3>
-                </div>
-                <div class="text-right">
-                    <p class="text-[9px] text-gray-500 font-bold uppercase">Số dư ví</p>
-                    <h3 id="portal-bal" class="text-xl font-black text-white">0 đ</h3>
-                </div>
+            <div class="glass-card p-6 mb-6 flex items-center justify-between border-none">
+                <div><p class="text-[9px] text-cyan-400 font-bold uppercase">Người dùng</p><h3 id="portal-user" class="text-xl font-black uppercase"></h3></div>
+                <div class="text-right"><p class="text-[9px] text-gray-500 font-bold uppercase">Số dư</p><h3 id="portal-bal" class="text-lg font-black text-white">0 đ</h3></div>
             </div>
             
             <div class="grid grid-cols-2 gap-4">
-                <div onclick="navigateTo('buy-key')" class="glass-card p-8 text-center bg-white/5 border-none active:scale-95 transition">
-                    <span class="text-3xl">💎</span><p class="text-[10px] font-bold uppercase mt-2">Gói VIP</p>
+                <div onclick="navigateTo('buy-key')" class="glass-card p-10 text-center bg-white/5 border-none active:scale-95 transition">
+                    <span class="text-4xl block mb-2">💎</span><p class="text-[10px] font-bold uppercase">Mua Gói VIP</p>
                 </div>
-                <div onclick="navigateTo('nap')" class="glass-card p-8 text-center bg-white/5 border-none active:scale-95 transition">
-                    <span class="text-3xl">💳</span><p class="text-[10px] font-bold uppercase mt-2">Nạp Tiền</p>
-                </div>
-            </div>
-
-            <div class="mt-6 p-4 glass-card border-dashed border-cyan-500/30">
-                <p class="text-[8px] text-center text-gray-500 uppercase mb-2">Quản lý (Dán lệnh duyệt tiền tại đây)</p>
-                <div class="flex gap-2">
-                    <input id="admin-cmd" type="text" placeholder="DUYET [ID] [TIỀN]" class="flex-1 bg-black/40 text-[10px] p-2 rounded-lg border border-white/5 text-cyan-400">
-                    <button onclick="fakeApprove()" class="bg-cyan-500 text-black text-[9px] px-3 font-bold rounded-lg uppercase">Duyệt</button>
+                <div onclick="navigateTo('nap')" class="glass-card p-10 text-center bg-white/5 border-none active:scale-95 transition">
+                    <span class="text-4xl block mb-2">💰</span><p class="text-[10px] font-bold uppercase">Nạp Tiền</p>
                 </div>
             </div>
         </div>              
 
         <div id="box-info" class="hidden animate__animated animate__fadeIn">
             <div class="glass-card p-8 text-center">
-                <div class="profile-hex mb-6">
-                    <img id="info-avatar" src="" alt="Ảnh đại diện">
-                </div>
+                <div class="mb-4 text-6xl">👤</div>
                 <h3 id="info-user" class="text-2xl font-black uppercase mb-1"></h3>
                 <p id="info-email" class="text-gray-500 text-[10px] font-bold mb-8 uppercase"></p>
-                
-                <div class="space-y-3 text-left">
-                    <div class="flex justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <span class="text-[10px] text-gray-400 uppercase">Điện thoại</span>
-                        <span id="info-phone" class="text-[10px] font-bold text-white"></span>
+                <div class="space-y-2 text-left">
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex justify-between">
+                        <span class="text-[10px] text-gray-400 uppercase">Hạn dùng Tool</span>
+                        <span id="info-hsd" class="text-[10px] font-bold text-cyan-400"></span>
                     </div>
-                    <div class="flex justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <span class="text-[10px] text-gray-400 uppercase">Hạn dùng Key</span>
-                        <span id="info-hsd" class="text-[10px] font-bold text-cyan-400 uppercase"></span>
-                    </div>
-                    <div class="flex justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <span class="text-[10px] text-gray-400 uppercase">Mã ID cá nhân</span>
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex justify-between">
+                        <span class="text-[10px] text-gray-400 uppercase">ID Nạp</span>
                         <span id="info-ref" class="text-[10px] font-bold text-white tracking-widest"></span>
                     </div>
                 </div>
@@ -166,45 +120,32 @@
 
         <div id="box-nap" class="hidden animate__animated animate__fadeIn">
             <div class="glass-card p-6 text-center">
-                <img src="https://i.imgur.com/R5mZxrx.png" class="h-8 mx-auto mb-6" alt="VietinBank">
-                <div class="bg-white p-3 rounded-3xl inline-block mb-4 shadow-2xl">
-                    <img id="qr-code" src="" class="w-44 h-44">
-                </div>
+                <img src="https://i.imgur.com/R5mZxrx.png" class="h-8 mx-auto mb-6">
+                <div class="bg-white p-3 rounded-3xl inline-block mb-4"><img id="qr-code" src="" class="w-48 h-48"></div>
                 <div class="bg-black/50 p-4 rounded-2xl text-left border border-white/5 mb-6">
-                    <p class="text-[8px] text-gray-500 uppercase">Nội dung chuyển khoản (Bắt buộc)</p>
-                    <div class="flex justify-between items-center">
-                        <span id="ref-id" class="text-xl font-black tracking-widest text-white"></span>
-                        <button onclick="copyRef()" class="text-[9px] text-cyan-400 font-bold uppercase">Sao Chép</button>
-                    </div>
+                    <p class="text-[8px] text-gray-500 uppercase">Nội dung nạp (Bắt buộc)</p>
+                    <div class="flex justify-between items-center"><span id="ref-id" class="text-2xl font-black tracking-widest text-white"></span><button onclick="copyText(document.getElementById('ref-id').innerText)" class="text-[9px] bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-lg">COPY</button></div>
                 </div>
-                <input id="nap-amount" type="number" placeholder="Nhập số tiền đã chuyển" class="cyber-input mb-4">
-                <button onclick="sendNapTele()" class="w-full py-4 btn-main rounded-2xl text-[11px] uppercase">Tôi Đã Chuyển Khoản</button>
+                <input id="nap-amount" type="number" placeholder="Số tiền đã chuyển" class="cyber-input mb-4">
+                <button onclick="sendNapTele()" class="w-full py-4 btn-main rounded-2xl text-[11px] uppercase">Xác Nhận Đã Chuyển Khoản</button>
             </div>
         </div>
 
         <div id="box-buy-key" class="hidden glass-card p-6 animate__animated animate__fadeIn">
-            <h3 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Cửa Hàng Bản Quyền</h3>
-            <div id="key-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
-                </div>
+            <h3 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Gói Bản Quyền VIP</h3>
+            <div id="key-list" class="space-y-3"></div>
         </div>
 
         <div id="box-use-key" class="hidden glass-card p-8 animate__animated animate__fadeIn">
             <div id="key-activation">
-                <h3 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Kích Hoạt Bản Quyền</h3>
-                <input id="key-input" type="text" placeholder="DÁN MÃ KEY VIP TẠI ĐÂY" class="cyber-input mb-4 uppercase">
-                <button onclick="activateLicense()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase">Kích Hoạt Ngay</button>
+                <h3 class="text-center font-bold text-cyan-400 mb-6 uppercase text-sm">Kích Hoạt VIP</h3>
+                <input id="key-input" type="text" placeholder="NHẬP MÃ KEY CỦA BẠN" class="cyber-input mb-4 uppercase">
+                <button onclick="activateLicense()" class="w-full py-4 btn-main rounded-2xl text-sm uppercase">Xác Nhận</button>
             </div>
             <div id="tool-interface" class="hidden text-center">
-                <div class="flex items-center justify-center gap-2 mb-8">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                    <span class="text-[9px] font-bold text-green-500 uppercase tracking-widest">Máy chủ MD5: Đã kết nối</span>
-                </div>
-                <textarea id="md5-input" placeholder="DÁN MÃ PHIÊN MD5 CỦA TRÒ CHƠI..." class="cyber-input h-32 mb-6 text-xs"></textarea>
-                <button id="ana-btn" onclick="runAnalysis()" class="w-full py-5 btn-main rounded-2xl text-sm uppercase">Bắt Đầu Phân Tích</button>
-                <div id="res-display" class="hidden mt-10">
-                    <p class="text-[9px] text-gray-500 font-bold uppercase mb-2">Kết quả dự đoán</p>
-                    <h2 id="res-val" class="result-text italic"></h2>
-                </div>
+                <textarea id="md5-input" placeholder="DÁN MÃ PHIÊN MD5..." class="cyber-input h-32 mb-6 text-xs"></textarea>
+                <button id="ana-btn" onclick="runAnalysis()" class="w-full py-5 btn-main rounded-2xl text-sm uppercase">Phân Tích</button>
+                <div id="res-display" class="hidden mt-10"><h2 id="res-val" class="text-7xl font-black"></h2></div>
             </div>
         </div>
 
@@ -212,9 +153,9 @@
 </div>              
 
 <div id="main-nav" class="nav-bar hidden">              
-    <div id="nav-home" class="nav-item active" onclick="navTo('portal', this)"><i>🏠</i>Trang Chủ</div>              
+    <div id="nav-home" class="nav-item active" onclick="navTo('portal', this)">Trang Chủ</div>              
     <div class="nav-center" onclick="checkToolAccess()"><span>⚡</span></div>              
-    <div id="nav-info" class="nav-item" onclick="navTo('info', this)"><i>👤</i>Cá Nhân</div>              
+    <div id="nav-info" class="nav-item" onclick="navTo('info', this)">Cá Nhân</div>              
 </div>              
 
 <script>              
@@ -223,32 +164,133 @@
         TELE_CHAT_ID: "8144161968",              
         STK: "103886058569",              
         BANK: "VietinBank", 
-        DB_NAME: "MD5_FINAL_2026_PRO",
-        AVATARS: ["https://i.imgur.com/FSIsT1P.jpeg", "https://i.imgur.com/PiniSGY.jpeg"]
+        DB_NAME: "MD5_PRO_V3_2026"
     };              
               
     let currentUser = null;              
     const getDB = () => JSON.parse(localStorage.getItem(CONFIG.DB_NAME)) || { users: [], keys: [] };
     const saveDB = (db) => localStorage.setItem(CONFIG.DB_NAME, JSON.stringify(db));
 
-    // Kiểm tra mật khẩu
-    function validatePass(p) {
-        let bar = document.getElementById('str-bar');
-        let label = document.getElementById('str-label');
-        let container = document.getElementById('str-container');
-        container.style.display = p.length > 0 ? 'block' : 'none';
-        
-        if(p.length < 6) {
-            bar.style.width = '30%'; bar.style.backgroundColor = 'var(--weak)';
-            label.innerText = '⚠️ Mật khẩu Yếu'; label.style.color = 'var(--weak)';
-        } else if(p.match(/[A-Z]/) && p.match(/[0-9]/) && p.length >= 8) {
-            bar.style.width = '100%'; bar.style.backgroundColor = 'var(--strong)';
-            label.innerText = '🛡️ Mật khẩu Rất Mạnh'; label.style.color = 'var(--strong)';
-        } else {
-            bar.style.width = '60%'; bar.style.backgroundColor = 'var(--medium)';
-            label.innerText = '⚡ Mật khẩu Trung Bình'; label.style.color = 'var(--medium)';
-        }
+    // --- HỆ THỐNG MODAL MỚI ---
+    function showModal(html) {
+        const m = document.getElementById('modal-container');
+        document.getElementById('modal-content').innerHTML = html;
+        m.style.display = 'flex';
     }
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    // Thông báo lỗi chuyên nghiệp
+    function showError(msg) {
+        showModal(`
+            <div class="text-6xl mb-4">❌</div>
+            <h2 class="text-red-500 font-black text-xl mb-2 uppercase">Lỗi Hệ Thống</h2>
+            <p class="text-gray-400 text-sm mb-6">${msg}</p>
+            <button onclick="closeModal()" class="w-full py-3 bg-white/10 rounded-xl font-bold uppercase text-xs">Đóng</button>
+        `);
+    }
+
+    // Xác nhận mua hàng
+    function confirmPurchase(price, days, name) {
+        showModal(`
+            <div class="text-6xl mb-4">🛒</div>
+            <h2 class="text-cyan-400 font-black text-xl mb-2 uppercase">Xác Nhận Mua</h2>
+            <p class="text-white font-bold">${name}</p>
+            <p class="text-gray-400 text-xs mb-6">Giá: ${price.toLocaleString()}đ</p>
+            <div class="flex gap-2">
+                <button onclick="closeModal()" class="flex-1 py-3 bg-white/5 rounded-xl font-bold uppercase text-xs">Hủy</button>
+                <button onclick="executeBuy(${price}, ${days}, '${name}')" class="flex-1 py-3 btn-main rounded-xl font-bold uppercase text-xs text-white">Xác Nhận</button>
+            </div>
+        `);
+    }
+
+    // Chúc mừng thanh toán & Copy Key
+    function showSuccessKey(key) {
+        showModal(`
+            <div class="text-6xl mb-4 animate__animated animate__bounceIn">🎉</div>
+            <h2 class="text-yellow-400 font-black text-xl mb-1 uppercase">Thanh Toán Thành Công</h2>
+            <p class="text-gray-400 text-[10px] uppercase mb-4">Cảm ơn bạn đã tin dùng sản phẩm</p>
+            <div class="key-box" id="new-key">${key}</div>
+            <button onclick="copyKey('${key}')" class="w-full py-4 btn-main rounded-2xl font-black text-sm uppercase mb-3">Sao Chép Key VIP</button>
+            <p onclick="closeModal(); navigateTo('portal')" class="text-[9px] text-gray-500 uppercase cursor-pointer">Để sau</p>
+        `);
+    }
+
+    // --- LOGIC HỆ THỐNG ---
+    function doLogin() {
+        const u = document.getElementById('u').value.trim().toUpperCase();
+        const p = document.getElementById('p').value;
+        const db = getDB();
+        const user = db.users.find(x => x.u === u);
+        
+        if(!user) return showError("Tài khoản này chưa tồn tại trên hệ thống!");
+        if(user.p !== p) return showError("Mật khẩu bạn nhập không chính xác!");
+        
+        currentUser = user;
+        document.getElementById('main-nav').classList.remove('hidden');
+        navigateTo('portal');
+    }
+
+    function doReg() {
+        const u = document.getElementById('r-u').value.trim().toUpperCase();
+        const p = document.getElementById('r-p').value;
+        const p2 = document.getElementById('r-p2').value;
+        if(!u || p.length < 6) return showError("Tên đăng nhập và mật khẩu ít nhất 6 ký tự!");
+        if(p !== p2) return showError("Mật khẩu xác nhận không khớp!");
+        
+        const db = getDB();
+        if(db.users.find(x => x.u === u)) return showError("Tên tài khoản đã được đăng ký!");
+        
+        const newUser = { u, p, bal: 0, ref: "MD5" + Math.floor(1000 + Math.random()*9000), hsd: null, e: document.getElementById('r-email').value };
+        db.users.push(newUser);
+        saveDB(db);
+        currentUser = newUser;
+        document.getElementById('main-nav').classList.remove('hidden');
+        navigateTo('portal');
+    }
+
+    function renderKeyShop() {
+        const pkgs = [
+            {n: 'Gói 1 Giờ', p: 5000, d: 0.04},
+            {n: 'Gói 24 Giờ', p: 15000, d: 1},
+            {n: 'Gói 3 Ngày', p: 55000, d: 30},
+            {n: 'Gói 7 Ngày', p: 80000, d: 7},
+            {n: 'Gói 30 Ngày', p: 150000, d: 30},
+            {n: 'Gói Vĩnh Viễn', p: 250000, d: 9999}
+        ];
+        let h = '';
+        pkgs.forEach(k => {
+            h += `<div onclick="confirmPurchase(${k.p}, ${k.d}, '${k.n}')" class="glass-card p-5 flex justify-between items-center active:scale-95 transition cursor-pointer">
+                <div><p class="text-[10px] font-black uppercase">${k.n}</p></div>
+                <p class="text-sm font-black text-cyan-400">${k.p.toLocaleString()}đ</p>
+            </div>`;
+        });
+        document.getElementById('key-list').innerHTML = h;
+    }
+
+    function executeBuy(price, days, name) {
+        if(currentUser.bal < price) {
+            closeModal();
+            return showError("Số dư không đủ! Vui lòng nạp thêm tiền.");
+        }
+        const db = getDB();
+        const u = db.users.find(x => x.u === currentUser.u);
+        u.bal -= price;
+        const key = "TOOLTX-" + Math.random().toString(36).substring(4, 10).toUpperCase();
+        db.keys.push({ key, days, used: false });
+        saveDB(db);
+        currentUser = u;
+        showSuccessKey(key);
+    }
+
+    function copyKey(key) {
+        navigator.clipboard.writeText(key);
+        const kb = document.getElementById('new-key');
+        kb.style.borderColor = 'var(--strong)';
+        kb.innerText = "ĐÃ SAO CHÉP!";
+        setTimeout(() => { closeModal(); navigateTo('portal'); }, 1000);
+    }
+
+    function copyText(txt) { navigator.clipboard.writeText(txt); alert("Đã sao chép!"); }
 
     function navigateTo(id) {              
         document.querySelectorAll('[id^="box-"]').forEach(b => b.classList.add('hidden'));              
@@ -268,106 +310,16 @@
         navigateTo(id);
     }
 
-    function doReg() {              
-        let u = document.getElementById('r-u').value.trim().toUpperCase();              
-        let e = document.getElementById('r-email').value.trim();
-        let s = document.getElementById('r-phone').value.trim();
-        let p = document.getElementById('r-p').value;              
-        let p2 = document.getElementById('r-p2').value;              
-        if(!u || !e || !s || !p || p !== p2) return alert("Vui lòng nhập đầy đủ thông tin!");
-        
-        let db = getDB();              
-        if(db.users.find(x => x.u === u)) return alert("Tên đăng nhập đã tồn tại!");              
-        
-        let newUser = { 
-            u, p, e, s, bal: 0, 
-            ref: "MD5" + Math.floor(1000 + Math.random() * 8999), 
-            hsd: null, avatar: CONFIG.AVATARS[Math.floor(Math.random() * CONFIG.AVATARS.length)]
-        };              
-        db.users.push(newUser); saveDB(db);              
-        currentUser = newUser;              
-        showSuccess("Đăng Ký Thành Công", () => {
-            document.getElementById('main-nav').classList.remove('hidden');              
-            navigateTo('portal');
-        });
-    }              
-
-    function doLogin() {              
-        let u = document.getElementById('u').value.trim().toUpperCase();              
-        let p = document.getElementById('p').value;              
-        let db = getDB();              
-        let user = db.users.find(x => x.u === u && x.p === p);              
-        if(user) {              
-            currentUser = user;              
-            document.getElementById('main-nav').classList.remove('hidden');              
-            showSuccess("Đăng Nhập Thành Công", () => navigateTo('portal'));
-        } else alert("Sai tài khoản hoặc mật khẩu!");              
-    }
-
-    function renderKeyShop() {
-        const pkgs = [
-            {n: 'Gói Thử Nghiệm (1H)', p: 5000, d: 0.04},
-            {n: 'Gói Ngày (24H)', p: 15000, d: 1},
-            {n: 'Gói Bạc (3 Ngày)', p: 55000, d: 3},
-            {n: 'Gói Vàng (7 Ngày)', p: 90000, d: 7},
-            {n: 'Gói Kim Cương (30 Ngày)', p: 150000, d: 30},
-            {n: 'Gói Vĩnh Viễn', p: 250000, d: 9999},
-        ];
-        let h = '';
-        pkgs.forEach(k => {
-            h += `<div onclick="buyKey(${k.p}, ${k.d}, '${k.n}')" class="glass-card p-4 flex justify-between items-center bg-white/5 border-none active:scale-95 transition cursor-pointer">
-                <div><p class="text-[10px] font-black uppercase text-white">${k.n}</p><p class="text-[8px] text-gray-500 uppercase">Kích hoạt ngay lập tức</p></div>
-                <p class="text-sm font-black text-cyan-400">${k.p.toLocaleString()}đ</p>
-            </div>`;
-        });
-        document.getElementById('key-list').innerHTML = h;
-    }
-
-    function buyKey(price, days, name) {
-        if(currentUser.bal < price) return alert("Số dư của bạn không đủ!");
-        if(confirm(`Xác nhận mua ${name}?`)) {
-            let db = getDB();
-            let u = db.users.find(x => x.u === currentUser.u);
-            u.bal -= price;
-            let key = "VIP-" + Math.random().toString(36).substring(7).toUpperCase();
-            db.keys.push({ key, days, used: false });
-            saveDB(db);
-            currentUser = u;
-            alert(`Mua thành công! Mã Key của bạn: ${key}`);
-            navigateTo('portal');
-        }
-    }
-
-    function fakeApprove() {
-        let cmd = document.getElementById('admin-cmd').value.trim().toUpperCase();
-        let parts = cmd.split(" ");
-        if(parts[0] === "DUYET" && parts.length === 3) {
-            let ref = parts[1];
-            let amount = parseInt(parts[2]);
-            let db = getDB();
-            let user = db.users.find(x => x.ref === ref);
-            if(user) {
-                user.bal += amount;
-                saveDB(db);
-                if(currentUser.ref === ref) { currentUser.bal = user.bal; refreshPortal(); }
-                alert(`Thành công! Đã nạp ${amount.toLocaleString()}đ cho ID ${ref}`);
-                document.getElementById('admin-cmd').value = "";
-            } else alert("Mã ID nạp không tồn tại!");
-        } else alert("Cú pháp: DUYET [ID] [SỐ TIỀN]");
-    }
-
     function refreshPortal() {              
         document.getElementById('portal-user').innerText = currentUser.u;              
         document.getElementById('portal-bal').innerText = currentUser.bal.toLocaleString() + " đ";              
     }
 
     function refreshInfo() {
-        document.getElementById('info-avatar').src = currentUser.avatar;
         document.getElementById('info-user').innerText = currentUser.u;
-        document.getElementById('info-email').innerText = currentUser.e;
-        document.getElementById('info-phone').innerText = currentUser.s;
+        document.getElementById('info-email').innerText = currentUser.e || "Chưa cập nhật";
         document.getElementById('info-ref').innerText = currentUser.ref;
-        document.getElementById('info-hsd').innerText = (currentUser.hsd && currentUser.hsd > Date.now()) ? new Date(currentUser.hsd).toLocaleDateString('vi-VN') : "Chưa kích hoạt";
+        document.getElementById('info-hsd').innerText = (currentUser.hsd && currentUser.hsd > Date.now()) ? new Date(currentUser.hsd).toLocaleDateString('vi-VN') : "Hết hạn";
     }
 
     function checkToolAccess() {              
@@ -375,29 +327,42 @@
         if(currentUser.hsd && currentUser.hsd > Date.now()) {              
             document.getElementById('key-activation').classList.add('hidden');              
             document.getElementById('tool-interface').classList.remove('hidden');              
+        } else {
+            document.getElementById('key-activation').classList.remove('hidden');              
+            document.getElementById('tool-interface').classList.add('hidden');
         }
     }
 
     function activateLicense() {              
-        let kv = document.getElementById('key-input').value.trim().toUpperCase();              
-        let db = getDB();              
-        let k = db.keys.find(x => x.key === kv && !x.used);              
-        if(!k) return alert("Mã Key không hợp lệ hoặc đã sử dụng!");              
-        let u = db.users.find(x => x.u === currentUser.u);              
+        const kv = document.getElementById('key-input').value.trim().toUpperCase();              
+        const db = getDB();              
+        const k = db.keys.find(x => x.key === kv && !x.used);              
+        if(!k) return showError("Mã Key không hợp lệ hoặc đã được sử dụng!");              
+        const u = db.users.find(x => x.u === currentUser.u);              
         u.hsd = (u.hsd > Date.now() ? u.hsd : Date.now()) + (k.days * 86400000);              
         k.used = true;              
         saveDB(db);              
         currentUser = u;              
-        showSuccess("Kích Hoạt VIP Thành Công", () => checkToolAccess());
+        showModal('<div class="text-6xl mb-4">✅</div><h2 class="text-green-500 font-black uppercase">Kích Hoạt VIP Thành Công!</h2>');
+        setTimeout(() => { closeModal(); checkToolAccess(); }, 1500);
+    }              
+
+    async function sendNapTele() {              
+        const amt = document.getElementById('nap-amount').value;              
+        if(!amt || amt < 10000) return showError("Nạp tối thiểu 10.000đ");              
+        const msg = `💰 YÊU CẦU NẠP\nUser: ${currentUser.u}\nID: ${currentUser.ref}\nTiền: ${parseInt(amt).toLocaleString()}đ\n\nDUYET ${currentUser.ref} ${amt}`;              
+        await fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(msg)}`);              
+        showModal('<div class="text-6xl mb-4">📩</div><h2 class="text-cyan-400 font-black uppercase">Đã Gửi Yêu Cầu</h2><p class="text-gray-400 text-xs">Vui lòng chờ Admin duyệt trong vài phút.</p>');
+        setTimeout(() => { closeModal(); navigateTo('portal'); }, 2000);
     }              
 
     function runAnalysis() {              
-        if(document.getElementById('md5-input').value.length < 5) return alert("Mã MD5 không hợp lệ!");
-        let btn = document.getElementById('ana-btn');              
-        btn.disabled = true; btn.innerText = "ĐANG PHÂN TÍCH MD5...";              
+        if(document.getElementById('md5-input').value.length < 5) return showError("Vui lòng dán mã MD5 phiên cược!");
+        const btn = document.getElementById('ana-btn');              
+        btn.disabled = true; btn.innerText = "ĐANG PHÂN TÍCH...";              
         setTimeout(() => {              
-            let isTai = Math.random() > 0.5;              
-            let v = document.getElementById('res-val');              
+            const isTai = Math.random() > 0.5;              
+            const v = document.getElementById('res-val');              
             v.innerText = isTai ? "TÀI" : "XỈU";              
             v.style.color = isTai ? "var(--main)" : "var(--weak)";
             document.getElementById('res-display').classList.remove('hidden');              
@@ -405,30 +370,13 @@
         }, 1500);              
     }              
 
-    async function sendNapTele() {              
-        let amt = document.getElementById('nap-amount').value;              
-        if(!amt || amt < 10000) return alert("Số tiền nạp tối thiểu là 10,000đ");              
-        let msg = `💰 YÊU CẦU NẠP TIỀN\nNgười dùng: ${currentUser.u}\nID Nạp: ${currentUser.ref}\nSố tiền: ${parseInt(amt).toLocaleString()}đ\n\nLệnh Duyệt: DUYET ${currentUser.ref} ${amt}`;              
-        await fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(msg)}`);              
-        alert("Yêu cầu đã gửi! Vui lòng chờ quản trị viên xác nhận.");              
-    }              
-
-    function showSuccess(msg, cb) {
-        let s = document.getElementById('success-screen');
-        document.getElementById('success-text').innerText = msg;
-        s.style.display = 'flex';
-        setTimeout(() => { s.style.display = 'none'; if(cb) cb(); }, 1500);
-    }
-
-    function copyRef() { navigator.clipboard.writeText(currentUser.ref); alert("Đã sao chép mã nạp!"); }
-
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     function draw() {
         ctx.fillStyle = 'rgba(2, 2, 5, 0.2)'; ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = '#00f2ff';
-        for(let i=0; i<10; i++) ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 1, 1);
+        for(let i=0; i<8; i++) ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 1, 1);
         requestAnimationFrame(draw);
     }
     draw();
