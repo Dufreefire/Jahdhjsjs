@@ -1,226 +1,320 @@
-<!DOCTYPE html>          
-<html lang="vi">          
-<head>          
-    <meta charset="UTF-8">          
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">          
-    <title>Tool Tài Xỉu MD5 - Ultra Quantum Edition</title>          
-    <script src="https://cdn.tailwindcss.com"></script>          
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>          
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>      
-    <style>          
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');          
-        :root { --main: #00f2ff; --sub: #7000ff; --dark: #020205; --gold: #fbbf24; --success: #22c55e; }          
-              
-        * { -webkit-user-select: none; user-select: none; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }          
-        input, textarea { -webkit-user-select: auto !important; user-select: auto !important; pointer-events: auto !important; }        
-              
-        body { background-color: var(--dark); color: white; font-family: 'Lexend', sans-serif; overflow: hidden; height: 100vh; margin: 0; }          
-        #bg-canvas { position: fixed; inset: 0; z-index: -1; }          
-      
-        .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(0, 242, 255, 0.15); backdrop-filter: blur(20px); border-radius: 30px; }          
-        .btn-main { background: linear-gradient(135deg, var(--main) 0%, var(--sub) 100%); color: white; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2); }          
-        .cyber-input { background: rgba(0, 0, 0, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: var(--main) !important; border-radius: 15px !important; text-align: center; }          
-          
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(10,10,20,0.95); border-top: 1px solid rgba(0,242,255,0.2); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; z-index: 999; }          
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #555; cursor: pointer; transition: 0.3s; width: 20%; }          
-        .nav-item.active { color: var(--main); text-shadow: 0 0 10px var(--main); }          
-        .nav-item span { font-size: 7px; font-weight: 900; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }          
-        .nav-center { position: relative; top: -20px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--main), var(--sub)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); border: 4px solid var(--dark); transition: 0.3s; }          
-      
-        .rank-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: rgba(255,255,255,0.02); border-radius: 15px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.03); }      
-        .top-1 { border: 1px solid var(--gold); background: rgba(251, 191, 36, 0.05); }      
-      
-        .pkg-card { background-size: 200% 200%; animation: rainbow 3s linear infinite; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }      
-        @keyframes rainbow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }      
-        .pkg-1 { background: linear-gradient(-45deg, #a8582d, #5e331b, #a8582d, #3d2111); }      
-        .pkg-2 { background: linear-gradient(-45deg, #94a3b8, #475569, #94a3b8, #1e293b); }      
-        .pkg-3 { background: linear-gradient(-45deg, #fbbf24, #b45309, #fbbf24, #78350f); }      
-        .pkg-4 { background: linear-gradient(-45deg, #22d3ee, #0891b2, #22d3ee, #164e63); }      
-        .pkg-5 { background: linear-gradient(-45deg, #c084fc, #7e22ce, #c084fc, #4c1d95); }      
-        .pkg-6 { background: linear-gradient(-45deg, #f43f5e, #9f1239, #f43f5e, #4c0519); }      
-      
-        .status-overlay { position: fixed; inset: 0; background: rgba(2, 2, 5, 0.95); z-index: 20000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }      
-        .check-container { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--success); box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); margin: 0 auto 20px; }      
-        .key-box { background: rgba(0, 242, 255, 0.1); border: 2px dashed var(--main); padding: 20px; border-radius: 20px; margin: 20px 0; }      
-        .copy-badge { background: var(--main); color: black; font-size: 9px; padding: 2px 8px; border-radius: 5px; font-weight: 900; margin-left: 8px; cursor: pointer; }  
-  
-        #confirm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 30000; display: none; align-items: center; justify-content: center; padding: 20px; }  
-        .modal-content { width: 100%; max-width: 350px; background: #0a0a0f; border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 25px; padding: 30px; text-align: center; }  
+<!DOCTYPE html>        
+<html lang="vi">        
+<head>        
+    <meta charset="UTF-8">        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">        
+    <title>Tool Tài Xỉu MD5 - Premium Edition</title>        
+    <script src="https://cdn.tailwindcss.com"></script>        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>    
+    <style>        
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');        
+        :root { --main: #00f2ff; --sub: #7000ff; --dark: #020205; --gold: #fbbf24; --success: #22c55e; }        
+            
+        * { -webkit-user-select: none; user-select: none; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }        
+        input, textarea { -webkit-user-select: auto !important; user-select: auto !important; pointer-events: auto !important; }      
+            
+        body { background-color: var(--dark); color: white; font-family: 'Lexend', sans-serif; overflow: hidden; height: 100vh; margin: 0; }        
+        #bg-canvas { position: fixed; inset: 0; z-index: -1; }        
+    
+        /* Giao diện chung */    
+        .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(0, 242, 255, 0.15); backdrop-filter: blur(20px); border-radius: 30px; }        
+        .btn-main { background: linear-gradient(135deg, var(--main) 0%, var(--sub) 100%); color: white; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2); }        
+        .cyber-input { background: rgba(0, 0, 0, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: var(--main) !important; border-radius: 15px !important; text-align: center; }        
+        
+        /* Menu Bottom */    
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(10,10,20,0.95); border-top: 1px solid rgba(0,242,255,0.2); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; z-index: 999; }        
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #555; cursor: pointer; transition: 0.3s; width: 20%; }        
+        .nav-item.active { color: var(--main); text-shadow: 0 0 10px var(--main); }        
+        .nav-item span { font-size: 7px; font-weight: 900; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }        
+        .nav-center { position: relative; top: -20px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--main), var(--sub)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); border: 4px solid var(--dark); transition: 0.3s; }        
+    
+        /* Info & Ranking Styles */    
+        .info-row { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }    
+        .rank-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: rgba(255,255,255,0.02); border-radius: 15px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.03); }    
+        .top-1 { border: 1px solid var(--gold); background: rgba(251, 191, 36, 0.05); }    
+    
+        @keyframes rainbow {    
+            0% { background-position: 0% 50%; }    
+            50% { background-position: 100% 50%; }    
+            100% { background-position: 0% 50%; }    
+        }    
+        .pkg-card { background-size: 200% 200%; animation: rainbow 3s linear infinite; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }    
+        .pkg-card:active { transform: scale(0.96); }    
+        .pkg-1 { background: linear-gradient(-45deg, #a8582d, #5e331b, #a8582d, #3d2111); }    
+        .pkg-2 { background: linear-gradient(-45deg, #94a3b8, #475569, #94a3b8, #1e293b); }    
+        .pkg-3 { background: linear-gradient(-45deg, #fbbf24, #b45309, #fbbf24, #78350f); }    
+        .pkg-4 { background: linear-gradient(-45deg, #22d3ee, #0891b2, #22d3ee, #164e63); }    
+        .pkg-5 { background: linear-gradient(-45deg, #c084fc, #7e22ce, #c084fc, #4c1d95); }    
+        .pkg-6 { background: linear-gradient(-45deg, #f43f5e, #9f1239, #f43f5e, #4c0519); }    
+    
+        /* Update 1: Loading Success Professional */    
+        .status-overlay { position: fixed; inset: 0; background: rgba(2, 2, 5, 0.95); z-index: 20000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }    
+        .check-container { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--success); box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); margin: 0 auto 20px; }    
+        .check-icon { font-size: 40px; color: white; animation: checkPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }    
+        @keyframes checkPop { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }    
+    
+        /* Update 2: Mua Key Success */    
+        .key-box { background: rgba(0, 242, 255, 0.1); border: 2px dashed var(--main); padding: 20px; border-radius: 20px; margin: 20px 0; }    
+            
+        /* Update 3: Nạp tiền chuyên nghiệp */    
+        .bank-info-card { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 20px; }    
+        .copy-badge { background: var(--main); color: black; font-size: 9px; padding: 2px 8px; border-radius: 5px; font-weight: 900; margin-left: 8px; cursor: pointer; }
 
-        /* --- UPDATE GIAO DIỆN PHÂN TÍCH + DỰ ĐOÁN --- */
-        .analyzer-box-ultimate { position: relative; border: 2px solid rgba(0, 242, 255, 0.4); background: radial-gradient(circle at top, rgba(0, 242, 255, 0.1), #05050a); border-radius: 25px; overflow: hidden; box-shadow: 0 0 40px rgba(0, 242, 255, 0.15); }  
-        .radar-v12 { position: absolute; width: 100%; height: 25px; background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.8)); box-shadow: 0 5px 20px #00f2ff; top: -30px; z-index: 10; display: none; animation: radarAnim 1.8s infinite linear; }  
-        @keyframes radarAnim { 0% { top: -10%; } 100% { top: 110%; } }  
-        .comparison-bar { width: 100%; height: 18px; background: rgba(255,255,255,0.05); border-radius: 20px; display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }  
-        .bar-tai { height: 100%; background: linear-gradient(90deg, #00f2ff, #0072ff); transition: 2.5s cubic-bezier(0.1, 0.8, 0.2, 1); width: 0%; box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); }  
-        .bar-xiu { height: 100%; background: linear-gradient(90deg, #ff3e3e, #800000); transition: 2.5s cubic-bezier(0.1, 0.8, 0.2, 1); width: 0%; box-shadow: 0 0 15px rgba(255, 62, 62, 0.5); }  
-        .glow-tai-text { color: #00f2ff; text-shadow: 0 0 30px #00f2ff, 0 0 60px #00f2ff; font-family: 'Lexend', sans-serif; font-weight: 900; }  
-        .glow-xiu-text { color: #ff3e3e; text-shadow: 0 0 30px #ff3e3e, 0 0 60px #ff3e3e; font-family: 'Lexend', sans-serif; font-weight: 900; }  
+        /* Giao diện mua key mới */
+        #confirm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 30000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { width: 100%; max-width: 350px; background: #0a0a0f; border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 25px; padding: 30px; box-shadow: 0 0 40px rgba(0, 242, 255, 0.1); text-align: center; }
+        .btn-cancel { background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* --- GIAO DIỆN CHAT LIVE TỰ ĐỘNG --- */
-        #chat-container { height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 15px; scroll-behavior: smooth; }
-        .chat-msg { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 20px; max-width: 90%; align-self: flex-start; animation: fadeInUp 0.4s ease-out; border-bottom-left-radius: 4px; }
-        .chat-user { font-size: 10px; font-weight: 900; color: var(--main); margin-bottom: 4px; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
-        .chat-user::after { content: "• VIP"; color: var(--gold); font-size: 8px; }
-        .chat-text { font-size: 12px; color: #e0e0e0; line-height: 1.5; font-weight: 400; }
-    </style>          
-</head>          
-<body>          
-      
-<div id="status-overlay" class="status-overlay">      
-    <div class="text-center px-6">      
-        <div id="loading-spinner" class="mb-4">      
-            <div style="width:60px;height:60px;border:4px solid var(--main);border-top-color:transparent;border-radius:50%;" class="animate-spin mx-auto"></div>      
-            <p id="status-text" class="text-cyan-400 font-black text-xs tracking-widest uppercase mt-4 animate-pulse italic">Đang đồng bộ dữ liệu...</p>      
-        </div>      
-        <div id="success-done" class="hidden animate__animated animate__fadeIn">      
-            <div class="check-container"><i class="fas fa-check" style="font-size: 40px; color: white;"></i></div>      
-            <h2 id="success-title" class="text-2xl font-black italic mb-2 uppercase text-white">Thành Công!</h2>      
-            <p id="success-desc" class="text-gray-400 text-xs mb-6 max-w-[250px] mx-auto"></p>      
-            <div id="key-result-box" class="hidden key-box">      
-                <p id="key-val" class="text-2xl font-black tracking-widest text-white mb-2"></p>      
-            </div>      
-            <button onclick="closeStatus()" class="w-full py-4 btn-main rounded-2xl text-xs font-black uppercase tracking-widest">Đóng</button>      
-        </div>      
-    </div>      
-</div>  
-  
-<div id="confirm-modal">  
-    <div class="modal-content animate__animated animate__zoomIn">  
-        <h3 class="text-white font-black uppercase italic text-sm mb-2">Xác nhận</h3>  
-        <p id="confirm-msg" class="text-[11px] text-gray-400 mb-6"></p>  
-        <div class="flex gap-3">  
-            <button id="modal-cancel-btn" class="flex-1 py-4 bg-white/5 rounded-xl text-[10px] font-black uppercase tracking-widest">Hủy</button>  
-            <button id="modal-confirm-btn" class="flex-1 py-4 btn-main rounded-xl text-[10px] font-black uppercase tracking-widest">Mua ngay</button>  
-        </div>  
-    </div>  
-</div>  
-      
-<canvas id="bg-canvas"></canvas>          
-          
-<div class="flex items-center justify-center min-h-screen p-4 pb-28">          
-    <div class="w-full max-w-[420px]">          
-                  
-        <div id="box-login" class="glass-card p-10 animate__animated animate__fadeIn">          
-            <div class="text-center mb-8">          
-                <h1 class="text-3xl font-black uppercase italic italic">TOOL <span class="text-cyan-400">MD5</span> QUANTUM</h1>          
-                <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 tracking-[4px]">Hệ Thống Phân Tích Thực 2026</p>          
-            </div>          
-            <div class="space-y-4">          
-                <input id="u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="w-full p-5 cyber-input uppercase font-bold text-xs">          
-                <input id="p" type="password" placeholder="MẬT KHẨU" class="w-full p-5 cyber-input text-xs">          
-                <button onclick="doLogin()" class="w-full py-5 btn-main rounded-2xl text-sm font-black uppercase italic tracking-widest">Xác nhận truy cập</button>          
-                <button onclick="navigateTo('reg')" class="w-full text-[10px] text-gray-500 uppercase font-bold">Chưa có tài khoản? Đăng ký ngay</button>          
-            </div>          
-        </div>      
-      
-        <div id="box-reg" class="hidden glass-card p-8 animate__animated animate__fadeIn">      
-             <h2 class="text-center font-black text-cyan-400 mb-6 uppercase text-sm">Đăng ký thành viên</h2>      
-             <div class="space-y-3">      
-                 <input id="r-u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="w-full p-4 cyber-input uppercase text-xs">      
-                 <input id="r-p" type="password" placeholder="MẬT KHẨU" class="w-full p-4 cyber-input text-xs">      
-                 <input id="r-email" type="email" placeholder="GMAIL" class="w-full p-4 cyber-input text-xs">      
-                 <input id="r-phone" type="tel" placeholder="SỐ ĐIỆN THOẠI" class="w-full p-4 cyber-input text-xs">      
-                 <button onclick="doReg()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Hoàn tất đăng ký</button>      
-                 <button onclick="navigateTo('login')" class="w-full text-[10px] text-gray-500 uppercase mt-2">Đã có tài khoản? Đăng nhập</button>      
-             </div>      
-        </div>      
-      
-        <div id="box-portal" class="hidden animate__animated animate__zoomIn">          
-            <div class="flex justify-between items-center mb-6 px-2">          
-                <div class="flex items-center gap-4">          
-                    <img src="https://i.imgur.com/WLeaCev.jpeg" class="w-14 h-14 rounded-2xl border-2 border-cyan-400">          
-                    <div>          
-                        <p id="portal-user" class="text-cyan-400 text-[11px] font-black uppercase"></p>          
-                        <p id="portal-bal" class="text-2xl font-black text-white italic">0 đ</p>          
-                    </div>          
-                </div>          
-            </div>          
-            <div class="glass-card p-5 mb-5 bg-gradient-to-br from-cyan-500/10 to-transparent">          
-                <p class="text-[9px] text-gray-500 font-bold uppercase mb-2">MÃ ĐỊNH DANH HỆ THỐNG</p>          
-                <div class="flex justify-between items-center">          
-                    <span id="portal-ref" class="text-xl font-black tracking-[4px] text-white"></span>          
-                    <button onclick="navigateTo('nap')" class="px-5 py-2 btn-main rounded-full text-[10px] font-black uppercase">Nạp tiền</button>          
-                </div>          
-            </div>          
-            <div class="grid grid-cols-2 gap-4">          
-                <div onclick="navigateTo('buy-key')" class="glass-card p-8 text-center cursor-pointer hover:border-cyan-400 transition">          
-                    <span class="text-4xl block mb-2">💎</span><p class="text-[10px] font-black uppercase">Gói Key VIP</p>          
-                </div>          
-                <div onclick="navigateTo('rank')" class="glass-card p-8 text-center cursor-pointer hover:border-cyan-400 transition">          
-                    <span class="text-4xl block mb-2">🏆</span><p class="text-[10px] font-black uppercase">Xếp Hạng</p>          
-                </div>          
-            </div>          
-        </div>      
-      
-        <div id="box-nap" class="hidden glass-card p-8 text-center animate__animated animate__fadeIn">      
-            <h3 class="text-cyan-400 font-black mb-6 uppercase text-sm italic">Nạp tiền tự động</h3>      
-            <div class="bank-info-card bg-white/5 border border-white/10 p-5 rounded-3xl mb-6">      
-                <div class="bg-white p-2 rounded-2xl inline-block mb-4">      
-                    <img id="qr-code" src="" class="w-40 h-40">      
-                </div>      
-                <div class="space-y-2 text-left text-xs">      
-                    <p class="text-gray-500 uppercase font-black">Chủ TK: NGUYEN VAN DU</p>      
-                    <p class="font-black">STK: <span class="text-cyan-400">103886058569</span></p>      
-                    <p class="font-black">Nội dung: <span id="ref-id-nap" class="text-yellow-500"></span></p>      
-                </div>      
-            </div>      
-            <input id="nap-amount" type="number" placeholder="NHẬP SỐ TIỀN CẦN NẠP" class="w-full p-4 cyber-input mb-4 text-xs font-black">      
-            <button onclick="sendNapTele()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Xác nhận đã chuyển khoản</button>      
-        </div>      
-      
-        <div id="box-buy-key" class="hidden glass-card p-6 animate__animated animate__fadeInUp">      
-            <h3 class="text-center font-black text-cyan-400 mb-6 uppercase text-sm tracking-widest">Cửa hàng Gói VIP</h3>      
-            <div class="space-y-3 max-h-[420px] overflow-y-auto pr-1">      
-                <div onclick="buyKey(5000, 0.04, 'Gói Đồng')" class="pkg-card pkg-1 p-5 rounded-2xl flex justify-between items-center">      
-                    <div><p class="text-xs font-black text-white uppercase">Gói Đồng (1H)</p></div>      
-                    <span class="font-black text-white">5,000đ</span>      
-                </div>      
-                <div onclick="buyKey(15000, 1, 'Gói Bạc')" class="pkg-card pkg-2 p-5 rounded-2xl flex justify-between items-center">      
-                    <div><p class="text-xs font-black text-white uppercase">Gói Bạc (24H)</p></div>      
-                    <span class="font-black text-white">15,000đ</span>      
-                </div>      
-                <div onclick="buyKey(55000, 7, 'Gói Vàng')" class="pkg-card pkg-3 p-5 rounded-2xl flex justify-between items-center">      
-                    <div><p class="text-xs font-black text-white uppercase">Gói Vàng (7 Ngày)</p></div>      
-                    <span class="font-black text-white">55,000đ</span>      
-                </div>      
-                <div onclick="buyKey(70000, 30, 'Gói Kim Cương')" class="pkg-card pkg-4 p-5 rounded-2xl flex justify-between items-center">      
-                    <div><p class="text-xs font-black text-white uppercase">Gói Kim Cương (1 Tháng)</p></div>      
-                    <span class="font-black text-white">70,000đ</span>      
-                </div>      
-                <div onclick="buyKey(250000, 9999, 'Gói Vĩnh Viễn')" class="pkg-card pkg-6 p-5 rounded-2xl flex justify-between items-center">      
-                    <div><p class="text-xs font-black text-white uppercase">Gói Vĩnh Viễn</p></div>      
-                    <span class="font-black text-white">250,000đ</span>      
-                </div>      
-            </div>      
-        </div>      
-      
-        <div id="box-lives" class="hidden animate__animated animate__fadeInUp">      
-            <div class="glass-card p-6 h-full flex flex-col">      
-                <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-                    <h3 class="text-lg font-black text-white uppercase italic tracking-tighter">💬 Chat Lives Toàn Cầu</h3>
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                        <span id="online-count" class="text-[9px] font-black text-green-400">856 ONLINE</span>
-                    </div>
-                </div>
-                <div id="chat-container">
-                    </div>
-                <div class="mt-4 flex gap-2">
-                    <input id="chat-input-fake" type="text" placeholder="Nhập nội dung chat..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-5 text-[11px] text-gray-300">
-                    <button onclick="userSendChat()" class="w-12 h-12 btn-main rounded-full flex items-center justify-center"><i class="fas fa-paper-plane text-sm"></i></button>
-                </div>
-            </div>      
-        </div>      
-      
-        <div id="box-rank" class="hidden animate__animated animate__fadeInUp">      
-            <div class="glass-card p-6">      
-                <h3 class="text-center font-black text-white uppercase italic mb-6">🏆 Bảng Xếp Hạng Đại Gia</h3>      
-                <div id="ranking-list" class="space-y-2"></div>      
-            </div>      
-        </div>      
-      
-        <div id="box-use-key" class="hidden glass-card p-8 animate__animated animate__fadeIn">      
+/* Hệ thống Radar & Quantum Glow */
+.analyzer-box-ultimate {
+    position: relative;
+    border: 2px solid rgba(0, 242, 255, 0.5);
+    background: radial-gradient(circle at top, rgba(0, 242, 255, 0.15), #05050a);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+}
+
+.radar-v12 {
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to bottom, transparent, #00f2ff);
+    box-shadow: 0 0 30px #00f2ff;
+    top: -20px;
+    z-index: 10;
+    display: none;
+    animation: radarAnim 1.5s infinite linear;
+}
+
+@keyframes radarAnim {
+    0% { top: -10%; }
+    100% { top: 110%; }
+}
+
+/* Thanh % Đối Lập (Tài vs Xỉu) */
+.comparison-bar {
+    width: 100%;
+    height: 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    display: flex;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.bar-tai {
+    height: 100%;
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    transition: 2s cubic-bezier(0.1, 0.8, 0.2, 1);
+    width: 0%;
+}
+
+.bar-xiu {
+    height: 100%;
+    background: linear-gradient(90deg, #f05053, #e1eec3);
+    transition: 2s cubic-bezier(0.1, 0.8, 0.2, 1);
+    width: 0%;
+}
+
+.glow-tai-text { color: #00f2ff; text-shadow: 0 0 25px #00f2ff; }
+.glow-xiu-text { color: #ff3e3e; text-shadow: 0 0 25px #ff3e3e; }
+    </style>        
+</head>        
+<body>        
+    
+<div id="status-overlay" class="status-overlay">    
+    <div class="text-center px-6">    
+        <div id="loading-spinner" class="mb-4">    
+            <div style="width:60px;height:60px;border:4px solid var(--main);border-top-color:transparent;border-radius:50%;" class="animate-spin mx-auto"></div>    
+            <p id="status-text" class="text-cyan-400 font-black text-xs tracking-widest uppercase mt-4 animate-pulse italic">Đang xử lý dữ liệu...</p>    
+        </div>    
+        <div id="success-done" class="hidden animate__animated animate__fadeIn">    
+            <div class="check-container">    
+                <i class="fas fa-check check-icon"></i>    
+            </div>    
+            <h2 id="success-title" class="text-2xl font-black italic mb-2 uppercase text-white">Thành Công!</h2>    
+            <p id="success-desc" class="text-gray-400 text-xs mb-6 max-w-[250px] mx-auto"></p>    
+                
+            <div id="key-result-box" class="hidden key-box">    
+                <p class="text-[10px] text-cyan-400 font-black uppercase mb-2">Mã Key VIP của bạn</p>    
+                <p id="key-val" class="text-2xl font-black tracking-widest text-white mb-2"></p>    
+                <p class="text-[9px] text-gray-500 uppercase">Hệ thống đã lưu vào lịch sử mua</p>    
+            </div>    
+    
+            <button onclick="closeStatus()" class="w-full py-4 btn-main rounded-2xl text-xs font-black uppercase tracking-widest">Tuyệt vời</button>    
+        </div>    
+    </div>    
+</div>
+
+<div id="confirm-modal">
+    <div class="modal-content animate__animated animate__zoomIn">
+        <div class="w-16 h-16 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-gem text-cyan-400 text-2xl"></i>
+        </div>
+        <h3 class="text-white font-black uppercase italic text-sm mb-2">Xác nhận thanh toán</h3>
+        <p id="confirm-msg" class="text-[11px] text-gray-400 mb-6 leading-relaxed"></p>
+        <div class="flex gap-3">
+            <button id="modal-cancel-btn" class="flex-1 py-4 btn-cancel rounded-xl text-[10px] font-black uppercase tracking-widest">Hủy bỏ</button>
+            <button id="modal-confirm-btn" class="flex-1 py-4 btn-main rounded-xl text-[10px] font-black uppercase tracking-widest">Xác nhận</button>
+        </div>
+    </div>
+</div>
+    
+<canvas id="bg-canvas"></canvas>        
+        
+<div class="flex items-center justify-center min-h-screen p-4 pb-28">        
+    <div class="w-full max-w-[420px]">        
+                
+        <div id="box-login" class="glass-card p-10 animate__animated animate__fadeIn">        
+            <div class="text-center mb-8">        
+                <h1 class="text-3xl font-black uppercase italic italic">TOOL TÀI XỈU <span class="text-cyan-400">MD5</span> VIP</h1>        
+                <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 tracking-[4px]">Hệ Thống Phân Tích Premium</p>        
+            </div>        
+            <div class="space-y-4">        
+                <input id="u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="w-full p-5 cyber-input uppercase font-bold text-xs">        
+                <input id="p" type="password" placeholder="MẬT KHẨU" class="w-full p-5 cyber-input text-xs">        
+                <button onclick="doLogin()" class="w-full py-5 btn-main rounded-2xl text-sm font-black uppercase italic tracking-widest">Đăng nhập</button>        
+                <button onclick="navigateTo('reg')" class="w-full text-[10px] text-gray-500 uppercase font-bold">Chưa có tài khoản? Đăng ký</button>        
+            </div>        
+        </div>    
+    
+        <div id="box-reg" class="hidden glass-card p-8 animate__animated animate__fadeIn">    
+             <h2 class="text-center font-black text-cyan-400 mb-6 uppercase text-sm">Đăng ký thành viên</h2>    
+             <div class="space-y-3">    
+                 <input id="r-u" type="text" placeholder="TÊN ĐĂNG NHẬP" class="w-full p-4 cyber-input uppercase text-xs">    
+                 <input id="r-p" type="password" placeholder="MẬT KHẨU" class="w-full p-4 cyber-input text-xs">    
+                 <input id="r-email" type="email" placeholder="GMAIL" class="w-full p-4 cyber-input text-xs">    
+                 <input id="r-phone" type="tel" placeholder="SỐ ĐIỆN THOẠI" class="w-full p-4 cyber-input text-xs">    
+                 <button onclick="doReg()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Xác nhận đăng ký</button>    
+                 <button onclick="navigateTo('login')" class="w-full text-[10px] text-gray-500 uppercase mt-2">Quay lại đăng nhập</button>    
+             </div>    
+        </div>    
+    
+        <div id="box-portal" class="hidden animate__animated animate__zoomIn">        
+            <div class="flex justify-between items-center mb-6 px-2">        
+                <div class="flex items-center gap-4">        
+                    <img src="https://i.imgur.com/WLeaCev.jpeg" class="w-14 h-14 rounded-2xl border-2 border-cyan-400">        
+                    <div>        
+                        <p id="portal-user" class="text-cyan-400 text-[11px] font-black uppercase"></p>        
+                        <p id="portal-bal" class="text-2xl font-black text-white italic">0 đ</p>        
+                    </div>        
+                </div>        
+            </div>        
+            <div class="glass-card p-5 mb-5 bg-gradient-to-br from-cyan-500/10 to-transparent">        
+                <p class="text-[9px] text-gray-500 font-bold uppercase mb-2">MÃ ĐỊNH DANH CỦA BẠN</p>        
+                <div class="flex justify-between items-center">        
+                    <span id="portal-ref" class="text-xl font-black tracking-[4px] text-white"></span>        
+                    <button onclick="navigateTo('nap')" class="px-5 py-2 btn-main rounded-full text-[10px] font-black uppercase">Nạp</button>        
+                </div>        
+            </div>        
+            <div class="grid grid-cols-2 gap-4">        
+                <div onclick="navigateTo('buy-key')" class="glass-card p-8 text-center cursor-pointer hover:border-cyan-400 transition">        
+                    <span class="text-4xl block mb-2">💎</span><p class="text-[10px] font-black uppercase">Gói Key VIP</p>        
+                </div>        
+                <div onclick="showPersonal()" class="glass-card p-8 text-center cursor-pointer hover:border-cyan-400 transition">        
+                    <span class="text-4xl block mb-2">👤</span><p class="text-[10px] font-black uppercase">Cá Nhân</p>        
+                </div>        
+            </div>        
+        </div>    
+    
+        <div id="box-nap" class="hidden glass-card p-8 text-center animate__animated animate__fadeIn">    
+            <h3 class="text-cyan-400 font-black mb-6 uppercase text-sm italic">Hệ thống nạp tự động 24/7</h3>    
+                
+            <div class="bank-info-card mb-6">    
+                <div class="bg-white p-2 rounded-2xl inline-block mb-4 shadow-[0_0_20px_rgba(255,255,255,0.1)]">    
+                    <img id="qr-code" src="" class="w-40 h-40">    
+                </div>    
+                    
+                <div class="space-y-3 text-left">    
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">    
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">Chủ TK</span>    
+                        <span class="text-[11px] font-black uppercase">NGUYEN VAN DU</span>    
+                    </div>    
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">    
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">Số TK</span>    
+                        <div class="flex items-center">    
+                            <span class="text-[11px] font-black text-cyan-400">103886058569</span>    
+                            <span onclick="copyText('103886058569')" class="copy-badge">COPY</span>    
+                        </div>    
+                    </div>    
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">    
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">Nội dung</span>    
+                        <div class="flex items-center">    
+                            <span id="ref-id-nap" class="text-[11px] font-black text-yellow-500"></span>    
+                            <span id="btn-copy-ref" class="copy-badge">COPY</span>    
+                        </div>    
+                    </div>    
+                </div>    
+            </div>    
+    
+            <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl mb-6">    
+                <p class="text-[10px] text-red-400 font-bold leading-relaxed">LƯU Ý: Chuyển đúng nội dung để được cộng tiền tự động sau 30 giây.</p>    
+            </div>    
+    
+            <input id="nap-amount" type="number" placeholder="NHẬP SỐ TIỀN ĐÃ CHUYỂN" class="w-full p-4 cyber-input mb-4 text-xs font-black">    
+            <button onclick="sendNapTele()" class="w-full py-5 btn-main rounded-2xl text-xs font-black uppercase">Tôi đã chuyển khoản</button>    
+        </div>    
+    
+        <div id="box-buy-key" class="hidden glass-card p-6 animate__animated animate__fadeInUp">    
+            <h3 class="text-center font-black text-cyan-400 mb-6 uppercase text-sm tracking-widest">Cửa hàng Gói VIP</h3>    
+            <div class="space-y-3 max-h-[420px] overflow-y-auto pr-1">    
+                <div onclick="buyKey(5000, 0.04, 'Gói Đồng')" class="pkg-card pkg-1 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Đồng (1H)</p><p class="text-[8px] text-white/70 uppercase">Trải nghiệm nhanh</p></div>    
+                    <span class="font-black text-white">5,000đ</span>    
+                </div>    
+                <div onclick="buyKey(15000, 1, 'Gói Bạc')" class="pkg-card pkg-2 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Bạc (24H)</p><p class="text-[8px] text-white/70 uppercase">Dùng trong ngày</p></div>    
+                    <span class="font-black text-white">15,000đ</span>    
+                </div>    
+                <div onclick="buyKey(55000, 7, 'Gói Vàng')" class="pkg-card pkg-3 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Vàng (7 Ngày)</p><p class="text-[8px] text-white/70 uppercase">Bán chạy nhất</p></div>    
+                    <span class="font-black text-white">55,000đ</span>    
+                </div>    
+                <div onclick="buyKey(70000, 30, 'Gói Kim Cương')" class="pkg-card pkg-4 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Kim Cương (1 Tháng)</p><p class="text-[8px] text-white/70 uppercase">Tiết kiệm chi phí</p></div>    
+                    <span class="font-black text-white">70,000đ</span>    
+                </div>    
+                <div onclick="buyKey(150000, 90, 'Gói Cao Thủ')" class="pkg-card pkg-5 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Cao Thủ (3 Tháng)</p><p class="text-[8px] text-white/70 uppercase">Đẳng cấp VIP</p></div>    
+                    <span class="font-black text-white">150,000đ</span>    
+                </div>    
+                <div onclick="buyKey(250000, 9999, 'Gói Vĩnh Viễn')" class="pkg-card pkg-6 p-5 rounded-2xl flex justify-between items-center">    
+                    <div><p class="text-xs font-black text-white uppercase">Gói Vĩnh Viễn</p><p class="text-[8px] text-white/70 uppercase">Sử dụng mãi mãi</p></div>    
+                    <span class="font-black text-white">250,000đ</span>    
+                </div>    
+            </div>    
+        </div>    
+    
+        <div id="box-info" class="hidden animate__animated animate__fadeInUp">    
+            <div class="glass-card p-6">    
+                <div class="text-center mb-8">    
+                    <img src="https://i.imgur.com/WLeaCev.jpeg" class="w-20 h-20 rounded-3xl border-2 border-cyan-400 mx-auto mb-3">    
+                    <h3 id="info-u" class="text-xl font-black text-white uppercase italic">USER NAME</h3>    
+                    <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Premium Member</p>    
+                </div>    
+                <div class="space-y-3">    
+                    <div class="info-row"><span>🔑</span><div><p class="text-[8px] text-gray-500 font-black uppercase">Key VIP</p><p id="info-key" class="text-xs font-bold text-white"></p></div></div>    
+                    <div class="info-row"><span>📧</span><div><p class="text-[8px] text-gray-500 font-black uppercase">Email</p><p id="info-email" class="text-xs font-bold text-white"></p></div></div>    
+                    <div class="info-row"><span>📱</span><div><p class="text-[8px] text-gray-500 font-black uppercase">Số điện thoại</p><p id="info-phone" class="text-xs font-bold text-white"></p></div></div>    
+                    <div class="info-row"><span>💰</span><div><p class="text-[8px] text-gray-500 font-black uppercase">Số dư</p><p id="info-bal" class="text-xs font-bold text-green-400"></p></div></div>    
+                </div>    
+                <button onclick="navigateTo('portal')" class="w-full mt-6 py-4 bg-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest">Đóng hồ sơ</button>    
+            </div>    
+        </div>    
+    
+        <div id="box-rank" class="hidden animate__animated animate__fadeInUp">    
+            <div class="glass-card p-6">    
+                <div class="text-center mb-6">    
+                    <h3 class="text-lg font-black text-white uppercase italic">🏆 Bảng Xếp Hạng</h3>    
+                    <p class="text-[9px] text-gray-500 uppercase font-bold">Top 10 Đại Gia Nạp Tiền</p>    
+                </div>    
+                <div id="ranking-list" class="space-y-2 max-h-[350px] overflow-y-auto pr-1"></div>    
+            </div>    
+        </div>    
+    
+                <div id="box-use-key" class="hidden glass-card p-8 animate__animated animate__fadeIn">      
             <div id="key-activation">      
                 <h3 class="text-center font-black text-cyan-400 mb-6 uppercase text-xs">Kích Hoạt Quyền Truy Cập</h3>      
                 <input id="key-input" type="text" placeholder="DÁN MÃ KEY VIP TẠI ĐÂY" class="w-full p-5 cyber-input mb-4 uppercase text-xs font-black">      
@@ -229,7 +323,7 @@
                   
             <div id="tool-interface" class="hidden space-y-6 text-center animate__animated animate__fadeIn">      
                 <div class="flex justify-between items-center px-1 text-[9px] font-black uppercase italic">  
-                    <span class="text-cyan-400"><i class="fas fa-bolt mr-1"></i> DEV</span>  
+                    <span class="text-cyan-400"><i class="fas fa-bolt mr-1"></i> ĐANG HOẠT ĐỘNG</span>  
                     <span class="text-gray-500 italic">VERISSON 2026 @ DEVLOVEP</span>  
                 </div>  
               
@@ -264,89 +358,300 @@
         </div>          
     </div>          
 </div>          
-          
-<div id="main-nav" class="nav-bar hidden">          
-    <div class="nav-item active" onclick="navigateTo('portal'); setActiveNav(this)">          
-        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>          
-        <span>Trang Chủ</span>          
-    </div>          
-    <div class="nav-item" onclick="showRanking(); setActiveNav(this)">          
-        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M7.5 21H2V9h5.5v12zm7.25 0h-5.5V3h5.5v18zM22 21h-5.5V12H22v9z"/></svg>          
-        <span>Xếp Hạng</span>          
-    </div>          
-    <div class="nav-center" onclick="checkToolAccess(); setActiveNav(this)">          
-        <svg viewBox="0 0 24 24" width="28" fill="white"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>          
-    </div>          
-    <div class="nav-item" onclick="navigateTo('nap'); setActiveNav(this)">          
-        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2-.9-2 2v8c0 1.1.89-2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>          
-        <span>Nạp Tiền</span>          
-    </div>          
-    <div class="nav-item" onclick="startChatLives(); setActiveNav(this)">          
-        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>          
-        <span>Chat Lives</span>          
-    </div>          
-</div>          
-          
-<script>          
-    const CONFIG = {          
-        TELE_TOKEN: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",          
-        TELE_CHAT_ID: "8144161968",          
-        STK: "103886058569",          
-        BANK: "ICB",            
-        DB_NAME: "MD5_DATABASE_PRO_V6_8"          
-    };       
-          
-    let currentUser = null;          
-    const getDB = () => JSON.parse(localStorage.getItem(CONFIG.DB_NAME)) || { users: [], keys: [], history: [], processedTrans: [] };          
-    const saveDB = (db) => localStorage.setItem(CONFIG.DB_NAME, JSON.stringify(db));          
+    
+    </div>        
+</div>        
+        
+<div id="main-nav" class="nav-bar hidden">        
+    <div class="nav-item active" onclick="navigateTo('portal'); setActiveNav(this)">        
+        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>        
+        <span>Trang Chủ</span>        
+    </div>        
+    <div class="nav-item" onclick="showRanking(); setActiveNav(this)">        
+        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M7.5 21H2V9h5.5v12zm7.25 0h-5.5V3h5.5v18zM22 21h-5.5V12H22v9z"/></svg>        
+        <span>Xếp Hạng</span>        
+    </div>        
+    <div class="nav-center" onclick="checkToolAccess(); setActiveNav(this)">        
+        <svg viewBox="0 0 24 24" width="28" fill="white"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>        
+    </div>        
+    <div class="nav-item" onclick="navigateTo('nap'); setActiveNav(this)">        
+        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2-.9-2 2v8c0 1.1.89-2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>        
+        <span>Nạp Tiền</span>        
+    </div>        
+    <div class="nav-item" onclick="showPersonal(); setActiveNav(this)">        
+        <svg fill="currentColor" viewBox="0 0 24 24" width="22"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>        
+        <span>Hồ Sơ</span>        
+    </div>        
+</div>        
+        
+<script>        
+    const CONFIG = {        
+        TELE_TOKEN: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",        
+        TELE_CHAT_ID: "8144161968",        
+        STK: "103886058569",        
+        BANK: "ICB",          
+        DB_NAME: "MD5_DATABASE_PRO_V6_8"        
+    };     
+        
+    let currentUser = null;        
+    const getDB = () => JSON.parse(localStorage.getItem(CONFIG.DB_NAME)) || { users: [], keys: [], history: [], processedTrans: [] };        
+    const saveDB = (db) => localStorage.setItem(CONFIG.DB_NAME, JSON.stringify(db));        
+        
+    
+window.addEventListener('load', function() {    
+    const params = new URLSearchParams(window.location.search);    
+    const fullCommand = params.get('cmd');     
+    const targetUser = params.get('target');    
+    
+    if (fullCommand && fullCommand.startsWith("DUYET") && targetUser) {    
+        const parts = fullCommand.split(" ");    
+        const napId = parts[1];     
+        const amount = Number(parts[2]);    
+    
+        let db = getDB();    
+        if(!db.processedTrans) db.processedTrans = [];    
+    
+        if(db.processedTrans.includes(napId)) {    
+            alert(`Lỗi: Lệnh ${napId} đã được thực thi trước đó!`);    
+            window.history.replaceState({}, document.title, window.location.pathname);    
+            return;    
+        }    
+    
+        const uIdx = db.users.findIndex(u => u.u === targetUser.toUpperCase());    
+        if (uIdx !== -1 && !isNaN(amount)) {    
+            db.users[uIdx].bal += amount;    
+            db.processedTrans.push(napId);    
+            saveDB(db);    
+                
+            showStatus("NẠP TIỀN THÀNH CÔNG", `Hệ thống đã thực thi lệnh: ${fullCommand}. Tài khoản ${targetUser} đã được cộng ${amount.toLocaleString()}đ`, 'success');    
+                
+            const confirmMsg = `✅ **THỰC THI LỆNH THÀNH CÔNG**\n📝 Lệnh: \`${fullCommand}\`\n👤 Tài khoản: ${targetUser}\n💰 Số dư mới: ${db.users[uIdx].bal.toLocaleString()}đ`;    
+            fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(confirmMsg)}&parse_mode=Markdown`);    
+        }    
+        window.history.replaceState({}, document.title, window.location.pathname);    
+    }    
+});    
+    
+    // NAVIGATION & STATUS CONTROL    
+    function showStatus(title, desc, type = 'loading', key = '') {    
+        const overlay = document.getElementById('status-overlay');    
+        const spinner = document.getElementById('loading-spinner');    
+        const done = document.getElementById('success-done');    
+        const keyBox = document.getElementById('key-result-box');    
+    
+        overlay.style.display = 'flex';    
+            
+        if(type === 'loading') {    
+            spinner.classList.remove('hidden');    
+            done.classList.add('hidden');    
+            document.getElementById('status-text').innerText = title;    
+        } else {    
+            spinner.classList.add('hidden');    
+            done.classList.remove('hidden');    
+            document.getElementById('success-title').innerText = title;    
+            document.getElementById('success-desc').innerText = desc;    
+                
+            if(key) {    
+                keyBox.classList.remove('hidden');    
+                document.getElementById('key-val').innerText = key;    
+            } else {    
+                keyBox.classList.add('hidden');    
+            }    
+        }    
+    }    
+    
+    function closeStatus() {    
+        document.getElementById('status-overlay').style.display = 'none';    
+    }    
+    
+    function navigateTo(boxId) {      
+        showStatus("Đang đồng bộ...");    
+        setTimeout(() => {      
+            closeStatus();    
+            document.querySelectorAll('[id^="box-"]').forEach(b => b.classList.add('hidden'));        
+            document.getElementById('box-' + boxId).classList.remove('hidden');        
+            if(boxId === 'portal') refreshPortal();    
+            if(boxId === 'nap') {    
+                document.getElementById('ref-id-nap').innerText = currentUser.ref;    
+                document.getElementById('btn-copy-ref').onclick = () => copyText(currentUser.ref);    
+                document.getElementById('qr-code').src = `https://img.vietqr.io/image/${CONFIG.BANK}-${CONFIG.STK}-compact.png?amount=0&addInfo=${currentUser.ref}`;    
+            }    
+        }, 500);      
+    }      
+    
+    function setActiveNav(el) {        
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));        
+        if(!el.classList.contains('nav-center')) el.classList.add('active');        
+    }    
+    
+    // AUTH    
+    function doLogin() {        
+        const u = document.getElementById('u').value.trim().toUpperCase();        
+        const p = document.getElementById('p').value;        
+        if(!u || !p) return alert("Vui lòng nhập đủ!");    
+            
+        showStatus("Đang xác thực...");    
+        setTimeout(() => {    
+            let db = getDB();        
+            const f = db.users.find(x => x.u === u && x.p === p);        
+            if(f) {        
+                currentUser = f;        
+                document.getElementById('main-nav').classList.remove('hidden');        
+                showStatus("ĐĂNG NHẬP THÀNH CÔNG", `Chào mừng ${u} quay trở lại hệ thống!`, 'success');    
+                setTimeout(() => { closeStatus(); navigateTo('portal'); }, 1500);    
+            } else {    
+                closeStatus();    
+                alert("Sai thông tin đăng nhập!");    
+            }    
+        }, 1000);    
+    }        
+    
+    function doReg() {        
+        const u = document.getElementById('r-u').value.trim().toUpperCase();        
+        const p = document.getElementById('r-p').value;        
+        if(u.length < 3) return alert("Tên quá ngắn!");        
+            
+        showStatus("Đang tạo tài khoản...");    
+        setTimeout(() => {    
+            let db = getDB();        
+            if(db.users.find(x => x.u === u)) { closeStatus(); return alert("Tài khoản đã tồn tại!"); }        
+            const newUser = { u, p, email: document.getElementById('r-email').value, phone: document.getElementById('r-phone').value, bal: 0, ref: "VIP" + Math.floor(1000 + Math.random()*8999), hsd: null };        
+            db.users.push(newUser); saveDB(db);        
+            currentUser = newUser;    
+            document.getElementById('main-nav').classList.remove('hidden');    
+            showStatus("ĐĂNG KÝ THÀNH CÔNG", "Tài khoản của bạn đã được kích hoạt trên hệ thống.", 'success');    
+            setTimeout(() => { closeStatus(); navigateTo('portal'); }, 1500);    
+        }, 1000);    
+    }    
+    
+function sendNapTele() {    
+    const amount = document.getElementById('nap-amount').value;    
+    if(!amount || amount < 1000) return alert("Số tiền không hợp lệ!");    
+        
+    showStatus("Đang gửi yêu cầu...");    
+        
+    const napId = Math.floor(1000 + Math.random() * 8999);    
+    const currentUrl = window.location.origin + window.location.pathname;    
+        
+    const commandText = `DUYET NAPTHE${napId} ${amount}`;    
+    const executeUrl = `${currentUrl}?cmd=${commandText}&target=${currentUser.u}`;    
+    
+    const msg = `━━━━━━━━━━━━━━━━━━\n` +    
+                `🔔 **YÊU CẦU NẠP TIỀN**\n` +    
+                `━━━━━━━━━━━━━━━━━━\n` +    
+                `👤 User: \`${currentUser.u}\`\n` +    
+                `📝 Lệnh: \`${commandText}\`\n` +    
+                `💰 Số tiền: \`${Number(amount).toLocaleString()}đ\`\n` +    
+                `━━━━━━━━━━━━━━━━━━\n` +    
+                `👉 [THỰC THI LỆNH NGAY](${executeUrl})`;    
+    
+    fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`)    
+    .then(() => {    
+        showStatus("GỬI THÀNH CÔNG", "Yêu cầu đã được chuyển thành lệnh gửi tới Admin.", 'success');    
+    });    
+}    
+    
+    // MUA KEY & COPY    
+    function buyKey(price, days, name) {    
+        let db = getDB();    
+        const uIdx = db.users.findIndex(u => u.u === currentUser.u);    
+        if(db.users[uIdx].bal < price) return alert("Số dư không đủ! Vui lòng nạp thêm.");    
+        
+        // Cập nhật giao diện Modal
+        const modal = document.getElementById('confirm-modal');
+        const confirmBtn = document.getElementById('modal-confirm-btn');
+        const cancelBtn = document.getElementById('modal-cancel-btn');
+        const msg = document.getElementById('confirm-msg');
+        
+        msg.innerHTML = `Hệ thống sẽ trừ <b>${price.toLocaleString()}đ</b> vào tài khoản để mua <b>${name}</b>. Bạn có chắc chắn muốn thực hiện giao dịch này?`;
+        modal.style.display = 'flex';
 
-    // --- LOGIC CHAT LIVES TỰ ĐỘNG ---
-    const autoChats = [
-        { u: "hoang_vjp", t: "Giao diện bản mới này chất quá admin ơi, nhìn chuyên nghiệp hẳn." },
-        { u: "admin_test", t: "Công nhận tool MD5 Quantum này soi cầu uy tín thật, húp 3 tay thông rồi." },
-        { u: "thanh_loc", t: "Nạp 50k cộng tiền nhanh vãi, uy tín 100% luôn ae." },
-        { u: "duy_an_99", t: "Tool đẹp, chạy mượt không lag tí nào, quá đỉnh!" },
-        { u: "kiem_tien_fb", t: "Mới dùng lần đầu mà thấy dự đoán chuẩn phết, thank admin." },
-        { u: "long_ga_vip", t: "Uy tín tạo nên thương hiệu, tool này đỉnh nhất mình từng dùng." },
-        { u: "van_huan", t: "Giao diện chất lives đẹp quá, lần đầu thấy tool đầu tư giao diện thế này." },
-        { u: "minh_beo", t: "Ae cứ yên tâm mà dùng, tool này uy tín số 1 Việt Nam rồi." },
-        { u: "trung_tran", t: "Mã MD5 trích xuất nhanh vãi, không phải chờ lâu." },
-        { u: "phong_pro", t: "Vừa làm gói Vĩnh Viễn xong, dùng tool cho sướng ae ạ." }
-    ];
+        confirmBtn.onclick = () => {
+            modal.style.display = 'none';
+            showStatus("Đang khởi tạo mã Key...");    
+            setTimeout(() => {    
+                db.users[uIdx].bal -= price;    
+                const key = "VIP-" + Math.random().toString(36).substring(2, 10).toUpperCase();    
+                db.keys.push({ key, days, used: false, owner: currentUser.u });    
+                saveDB(db);    
+                refreshPortal();    
+                showStatus("GIAO DỊCH THÀNH CÔNG", `Bạn đã mua thành công ${name}. Hãy sao chép mã Key bên dưới:`, 'success', key);    
+            }, 1000);
+        };
 
-    function startChatLives() {
-        navigateTo('lives');
-        const container = document.getElementById('chat-container');
-        if(container.innerHTML.trim() === "") {
-            // Load 3 tin ban đầu
-            autoChats.slice(0, 3).forEach((c, i) => setTimeout(() => addChat(c.u, c.t), i * 1000));
-            // Chạy auto loop
-            setInterval(() => {
-                const rand = autoChats[Math.floor(Math.random() * autoChats.length)];
-                addChat(rand.u, rand.t);
-                // Random số online
-                document.getElementById('online-count').innerText = (800 + Math.floor(Math.random()*200)) + " ONLINE";
-            }, 4500);
-        }
-    }
-
-    function addChat(user, text) {
-        const container = document.getElementById('chat-container');
-        const div = document.createElement('div');
-        div.className = "chat-msg animate__animated animate__fadeInUp";
-        div.innerHTML = `<div class="chat-user">${user}</div><div class="chat-text">${text}</div>`;
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-        if(container.children.length > 25) container.removeChild(container.firstChild);
-    }
-
-    function userSendChat() {
-        const input = document.getElementById('chat-input-fake');
-        if(!input.value.trim()) return;
-        addChat(currentUser.u, input.value);
-        input.value = "";
-    }
-
+        cancelBtn.onclick = () => {
+            modal.style.display = 'none';
+        };
+    }    
+    
+    function copyText(txt) {    
+        navigator.clipboard.writeText(txt).then(() => {    
+            const btn = event.target;    
+            const oldTxt = btn.innerText;    
+            btn.innerText = "OK!";    
+            setTimeout(() => btn.innerText = oldTxt, 1000);    
+        });    
+    }    
+    
+    function refreshPortal() {        
+        const db = getDB();        
+        currentUser = db.users.find(u => u.u === currentUser.u);        
+        document.getElementById('portal-user').innerText = "XIN CHÀO, " + currentUser.u;        
+        document.getElementById('portal-bal').innerText = currentUser.bal.toLocaleString() + " VNĐ";        
+        document.getElementById('portal-ref').innerText = currentUser.ref;        
+    }    
+    
+    function showPersonal() {    
+        const db = getDB();    
+        currentUser = db.users.find(u => u.u === currentUser.u);    
+        document.getElementById('info-u').innerText = currentUser.u;    
+        document.getElementById('info-email').innerText = currentUser.email || "CHƯA CẬP NHẬT";    
+        document.getElementById('info-phone').innerText = currentUser.phone || "CHƯA CẬP NHẬT";    
+        document.getElementById('info-bal').innerText = currentUser.bal.toLocaleString() + " VNĐ";    
+        document.getElementById('info-key').innerText = (currentUser.hsd && currentUser.hsd > Date.now()) ? "💎 ĐANG HOẠT ĐỘNG" : "❌ CHƯA KÍCH HOẠT";    
+        navigateTo('info');    
+    }    
+    
+    function showRanking() {    
+        const db = getDB();    
+        const sortedUsers = [...db.users].sort((a, b) => b.bal - a.bal).slice(0, 10);    
+        document.getElementById('ranking-list').innerHTML = sortedUsers.map((u, i) => `    
+            <div class="rank-item ${i === 0 ? 'top-1' : ''}">    
+                <div class="flex items-center gap-3">    
+                    <span class="font-black italic text-cyan-400 w-5">${i + 1}</span>    
+                    <span class="text-[11px] font-black uppercase text-gray-300">${u.u.substring(0, 3)}***</span>    
+                </div>    
+                <span class="text-[11px] font-black text-cyan-400">${u.bal.toLocaleString()} VNĐ</span>    
+            </div>    
+        `).join('');    
+        navigateTo('rank');    
+    }    
+    
+    function checkToolAccess() {    
+        if(currentUser.hsd && currentUser.hsd > Date.now()) {    
+            document.getElementById('key-activation').classList.add('hidden');    
+            document.getElementById('tool-interface').classList.remove('hidden');    
+            document.getElementById('expiry-text').innerText = "HẾT HẠN: " + new Date(currentUser.hsd).toLocaleDateString();    
+        } else {    
+            document.getElementById('key-activation').classList.remove('hidden');    
+            document.getElementById('tool-interface').classList.add('hidden');    
+        }    
+        navigateTo('use-key');    
+    }    
+    
+    function activateLicense() {    
+        const kv = document.getElementById('key-input').value.trim().toUpperCase();    
+        let db = getDB();    
+        const kIdx = db.keys.findIndex(k => k.key === kv && !k.used);    
+        if(kIdx === -1) return alert("Key không hợp lệ hoặc đã sử dụng!");    
+        const uIdx = db.users.findIndex(u => u.u === currentUser.u);    
+        db.users[uIdx].hsd = Date.now() + (db.keys[kIdx].days * 86400000);    
+        db.keys[kIdx].used = true;    
+        saveDB(db);    
+        showStatus("KÍCH HOẠT THÀNH CÔNG", "Tool đã được mở khóa. Chúc bạn thắng lớn!", 'success');    
+        setTimeout(() => { closeStatus(); checkToolAccess(); }, 1500);    
+    }    
+    
     // --- UPDATE LOGIC RUN ANALYSIS (GIỮ NGUYÊN TOÀN BỘ CƠ CHẾ) ---
     function runAnalysis() {      
         const input = document.getElementById('md5-input').value.trim();      
@@ -398,149 +703,22 @@
             }, 1800);  
         }, 1200);      
     }  
-
-    // --- GIỮ NGUYÊN TOÀN BỘ LOGIC CÒN LẠI ---
-    function showStatus(title, desc, type = 'loading', key = '') {      
-        const overlay = document.getElementById('status-overlay');      
-        const spinner = document.getElementById('loading-spinner');      
-        const done = document.getElementById('success-done');      
-        const keyBox = document.getElementById('key-result-box');      
-        overlay.style.display = 'flex';      
-        if(type === 'loading') {      
-            spinner.classList.remove('hidden'); done.classList.add('hidden');      
-            document.getElementById('status-text').innerText = title;      
-        } else {      
-            spinner.classList.add('hidden'); done.classList.remove('hidden');      
-            document.getElementById('success-title').innerText = title;      
-            document.getElementById('success-desc').innerText = desc;      
-            if(key) { keyBox.classList.remove('hidden'); document.getElementById('key-val').innerText = key; } else { keyBox.classList.add('hidden'); }      
-        }      
-    }      
-    function closeStatus() { document.getElementById('status-overlay').style.display = 'none'; }      
-    function navigateTo(boxId) {        
-        showStatus("Đang đồng bộ...");      
-        setTimeout(() => {        
-            closeStatus();      
-            document.querySelectorAll('[id^="box-"]').forEach(b => b.classList.add('hidden'));          
-            document.getElementById('box-' + boxId).classList.remove('hidden');          
-            if(boxId === 'portal') refreshPortal();      
-            if(boxId === 'nap') {      
-                document.getElementById('ref-id-nap').innerText = currentUser.ref;      
-                document.getElementById('qr-code').src = `https://img.vietqr.io/image/${CONFIG.BANK}-${CONFIG.STK}-compact.png?amount=0&addInfo=${currentUser.ref}`;      
-            }      
-        }, 500);        
-    }        
-    function setActiveNav(el) {          
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));          
-        if(!el.classList.contains('nav-center')) el.classList.add('active');          
-    }      
-    function doLogin() {          
-        const u = document.getElementById('u').value.trim().toUpperCase();          
-        const p = document.getElementById('p').value;          
-        if(!u || !p) return alert("Nhập đủ thông tin!");      
-        showStatus("Đang xác thực...");      
-        setTimeout(() => {      
-            let db = getDB();          
-            const f = db.users.find(x => x.u === u && x.p === p);          
-            if(f) {          
-                currentUser = f; document.getElementById('main-nav').classList.remove('hidden');          
-                showStatus("THÀNH CÔNG", `Chào mừng ${u}!`, 'success');      
-                setTimeout(() => { closeStatus(); navigateTo('portal'); }, 1200);      
-            } else { closeStatus(); alert("Sai thông tin!"); }      
-        }, 1000);      
-    }          
-    function doReg() {          
-        const u = document.getElementById('r-u').value.trim().toUpperCase();          
-        const p = document.getElementById('r-p').value;          
-        if(u.length < 3) return alert("Tên quá ngắn!");          
-        showStatus("Đang đăng ký...");      
-        setTimeout(() => {      
-            let db = getDB();          
-            if(db.users.find(x => x.u === u)) { closeStatus(); return alert("Đã tồn tại!"); }          
-            const newUser = { u, p, bal: 0, ref: "VIP" + Math.floor(1000 + Math.random()*8999), hsd: null };          
-            db.users.push(newUser); saveDB(db);          
-            currentUser = newUser; document.getElementById('main-nav').classList.remove('hidden');      
-            showStatus("ĐĂNG KÝ XONG", "Chào mừng thành viên mới!", 'success');      
-            setTimeout(() => { closeStatus(); navigateTo('portal'); }, 1200);      
-        }, 1000);      
-    }      
-    function sendNapTele() {      
-        const amount = document.getElementById('nap-amount').value;      
-        if(!amount || amount < 1000) return alert("Số tiền không hợp lệ!");      
-        showStatus("Gửi yêu cầu...");      
-        const msg = `🔔 **YÊU CẦU NẠP**\n👤 User: \`${currentUser.u}\`\n💰 Số tiền: \`${Number(amount).toLocaleString()}đ\`\n📝 Nội dung: \`${currentUser.ref}\``;      
-        fetch(`https://api.telegram.org/bot${CONFIG.TELE_TOKEN}/sendMessage?chat_id=${CONFIG.TELE_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`)      
-        .then(() => showStatus("GỬI THÀNH CÔNG", "Yêu cầu đã được gửi tới Admin.", 'success'));      
-    }      
-    function buyKey(price, days, name) {      
-        let db = getDB();      
-        const uIdx = db.users.findIndex(u => u.u === currentUser.u);      
-        if(db.users[uIdx].bal < price) return alert("Số dư không đủ!");      
-        document.getElementById('confirm-msg').innerText = `Xác nhận mua ${name} giá ${price.toLocaleString()}đ?`;  
-        document.getElementById('confirm-modal').style.display = 'flex';  
-        document.getElementById('modal-confirm-btn').onclick = () => {  
-            document.getElementById('confirm-modal').style.display = 'none';  
-            showStatus("Đang tạo Key...");      
-            setTimeout(() => {      
-                db.users[uIdx].bal -= price;      
-                const key = "VIP-" + Math.random().toString(36).substring(2, 10).toUpperCase();      
-                db.keys.push({ key, days, used: false, owner: currentUser.u });      
-                saveDB(db); refreshPortal();      
-                showStatus("XONG!", `Mã Key:`, 'success', key);      
-            }, 1000);  
-        };  
-        document.getElementById('modal-cancel-btn').onclick = () => document.getElementById('confirm-modal').style.display = 'none';
-    }      
-    function refreshPortal() {          
-        const db = getDB(); currentUser = db.users.find(u => u.u === currentUser.u);          
-        document.getElementById('portal-user').innerText = "XIN CHÀO, " + currentUser.u;          
-        document.getElementById('portal-bal').innerText = currentUser.bal.toLocaleString() + " VNĐ";          
-        document.getElementById('portal-ref').innerText = currentUser.ref;          
-    }      
-    function showRanking() {      
-        const db = getDB(); const sorted = [...db.users].sort((a,b)=>b.bal-a.bal).slice(0,10);      
-        document.getElementById('ranking-list').innerHTML = sorted.map((u,i)=>`      
-            <div class="rank-item ${i===0?'top-1':''}">      
-                <span class="font-black text-cyan-400">${i+1}. ${u.u.substring(0,3)}***</span>      
-                <span class="text-white">${u.bal.toLocaleString()} VNĐ</span>      
-            </div>`).join('');      
-        navigateTo('rank');      
-    }      
-    function checkToolAccess() {      
-        if(currentUser.hsd && currentUser.hsd > Date.now()) {      
-            document.getElementById('key-activation').classList.add('hidden');      
-            document.getElementById('tool-interface').classList.remove('hidden');      
-        } else {      
-            document.getElementById('key-activation').classList.remove('hidden');      
-            document.getElementById('tool-interface').classList.add('hidden');      
-        }      
-        navigateTo('use-key');      
-    }      
-    function activateLicense() {      
-        const kv = document.getElementById('key-input').value.trim().toUpperCase();      
-        let db = getDB(); const kIdx = db.keys.findIndex(k=>k.key===kv && !k.used);      
-        if(kIdx===-1) return alert("Key sai!");      
-        const uIdx = db.users.findIndex(u=>u.u===currentUser.u);      
-        db.users[uIdx].hsd = Date.now() + (db.keys[kIdx].days * 86400000);      
-        db.keys[kIdx].used = true; saveDB(db);      
-        showStatus("KÍCH HOẠT XONG", "Bắt đầu soi cầu nào!", 'success');      
-        setTimeout(() => { closeStatus(); checkToolAccess(); }, 1200);      
-    }      
-    const canvas = document.getElementById('bg-canvas');      
-    const ctx = canvas.getContext('2d');      
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;      
-    let particles = [];      
-    for(let i=0; i<50; i++) particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2, s:Math.random()*0.5});      
-    function draw() {      
-        ctx.clearRect(0,0,canvas.width,canvas.height);      
-        ctx.fillStyle = "rgba(0, 242, 255, 0.15)";      
-        particles.forEach(p => {      
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();      
-            p.y -= p.s; if(p.y < -10) p.y = canvas.height + 10;      
-        });      
-        requestAnimationFrame(draw);      
-    }      
-    draw();      
-</script>          
-</body>          
+    
+    const canvas = document.getElementById('bg-canvas');    
+    const ctx = canvas.getContext('2d');    
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;    
+    let particles = [];    
+    for(let i=0; i<50; i++) particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2, s:Math.random()*0.5});    
+    function draw() {    
+        ctx.clearRect(0,0,canvas.width,canvas.height);    
+        ctx.fillStyle = "rgba(0, 242, 255, 0.2)";    
+        particles.forEach(p => {    
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();    
+            p.y -= p.s; if(p.y < -10) p.y = canvas.height + 10;    
+        });    
+        requestAnimationFrame(draw);    
+    }    
+    draw();    
+</script>        
+</body>        
 </html>
