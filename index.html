@@ -431,6 +431,9 @@ window.addEventListener('load', function() {
         window.history.replaceState({}, document.title, window.location.pathname);    
     }    
 });    
+
+
+    function copyText(txt) { navigator.clipboard.writeText(txt).then(() => alert("Đã sao chép: " + txt)); }      
     
     // NAVIGATION & STATUS CONTROL    
     function showStatus(title, desc, type = 'loading', key = '') {    
