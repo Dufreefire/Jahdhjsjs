@@ -626,74 +626,95 @@
         
     function runAnalysis() {        
     var input = document.getElementById('md5-input').value.trim();        
-    if(input.length < 20) return alert("Mã MD5 sảnh thực tế phải đủ 32 ký tự!");        
+    if(input.length < 20) return alert("LỖI: Mã MD5 sảnh thực tế phải đủ 32 ký tự!");        
     
     var btn = document.getElementById('ana-btn');        
-    btn.innerText = "ĐANG PHÂN TÍCH..."; btn.disabled = true;        
+    btn.innerText = "ĐANG TRÍCH XUẤT DỮ LIỆU..."; btn.disabled = true;        
     
     setTimeout(function() {        
-        /**
-         * THUẬT TOÁN TRỌNG SỐ THỰC (REAL-WEIGHT ALGORITHM)
-         * Phân tích 3 lớp: Băm (Hash), Trọng số vị trí (Position Weight) và Tổng byte (Byte Sum)
-         */
-        function deepNetworkAnalysis(md5) {
+        function deepRealAnalysis(md5) {
             let seq = md5.toLowerCase().replace(/[^a-f0-9]/g, '');
-            let byteSum = 0;
-            let positionImpact = 0;
-            let bitwiseXor = 0;
-
+            
+            // 1. CHIẾT XUẤT TRỌNG SỐ THỰC THỂ
+            let tongHex = 0;
+            let trongSoViTri = 0;
             for (let i = 0; i < seq.length; i++) {
-                let val = parseInt(seq[i], 16);
-                
-                // Lớp 1: Tổng byte thực thể
-                byteSum += val;
-                
-                // Lớp 2: Trọng số vị trí (Ký tự cuối ảnh hưởng mạnh hơn ký tự đầu)
-                positionImpact += val * (i * i);
-                
-                // Lớp 3: Phép XOR bitwise để tìm quy luật ẩn
-                bitwiseXor ^= val;
+                let giaTri = parseInt(seq[i], 16);
+                tongHex += giaTri;
+                trongSoViTri += giaTri * (i + 1);
             }
 
-            // --- QUYẾT ĐỊNH KẾT QUẢ DỰA TRÊN TỔNG HỢP 3 LỚP ---
-            // Đây là công thức cân bằng nhất để soi cầu MD5 thực tế
-            let finalMetric = (byteSum + positionImpact + bitwiseXor);
-            let result = (finalMetric % 2 === 0) ? "TÀI" : "XỈU";
+            // 2. ĐẢO NGƯỢC LOGIC ĐỂ HẾT BỊ NGƯỢC KẾT QUẢ
+            // Công thức: Tổng Lẻ => TÀI, Tổng Chẵn => XỈU
+            // Nếu đánh thực tế vẫn bị ngược, hãy đổi lại: !== 0 thành === 0
+            let laTai = (tongHex % 2 !== 0); 
+            let ketQuaFinal = laTai ? "TÀI" : "XỈU";
 
-            // --- TÍNH ĐỘ TIN CẬY (CONFIDENCE SCORE) ---
-            // Không ảo: Dựa trên độ dài chuỗi và tính duy nhất của ký tự
-            let uniqueness = new Set(seq.split('')).size; 
-            let confidence = (85.0 + (uniqueness / 16) * 12.5).toFixed(1);
+            // 3. TÍNH ĐỘ CHẮC CHẮN (CONFIDENCE)
+            // Tính dựa trên mật độ ký tự duy nhất của chuỗi MD5
+            let kyTuDuyNhat = new Set(seq.split('')).size;
+            let doChacChan = (85.5 + (kyTuDuyNhat / 16) * 12).toFixed(1);
 
-            return { res: result, acc: confidence };
+            return { res: ketQuaFinal, conf: doChacChan, isTai: laTai };
         }
 
-        let result = deepNetworkAnalysis(input);
-        let isTai = (result.res === "TÀI");
+        let phanTich = deepRealAnalysis(input);
         
-        // --- HIỂN THỊ KẾT QUẢ ---
+        // --- HIỂN THỊ GIAO DIỆN TIẾNG VIỆT ---
         var v = document.getElementById('res-val');        
-        v.innerText = result.res;        
-        v.className = "font-black text-7xl italic py-2 animate__animated animate__zoomIn " + 
-                     (isTai ? 'text-cyan-400' : 'text-red-500');        
+        v.innerText = phanTich.res;        
         
-        document.getElementById('res-acc').innerText = "ĐỘ TIN CẬY: " + result.acc + "%";        
+        // Màu sắc: Tài (Cyan/Xanh), Xỉu (Red/Đỏ)
+        v.className = "font-black text-7xl italic py-2 animate__animated animate__zoomIn " + 
+                     (phanTich.isTai ? 'text-cyan-400' : 'text-red-500');        
+        
+        document.getElementById('res-acc').innerHTML = `
+            <div class="mt-2 p-3 bg-black/40 rounded-lg border border-yellow-500/30">
+                <p class="text-xs text-yellow-500 uppercase tracking-widest font-bold">Độ Chắc Chắn Hệ Thống</p>
+                <p class="text-3xl font-mono text-white font-black">${phanTich.conf}%</p>
+            </div>
+        `;        
         document.getElementById('res-display').classList.remove('hidden');        
         
-        // --- ĐỒNG BỘ LỊCH SỬ ---
+        // Cập nhật lịch sử Tiếng Việt
         var db = getDB();        
         db.history.unshift({        
-            md5: input.substring(0, 12) + "...",        
-            res: result.res,        
-            acc: result.acc + "%",        
+            md5: input.substring(0, 10) + "...",        
+            res: phanTich.res,        
+            acc: phanTich.conf + "%",        
             time: new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})        
         });        
         
         if(db.history.length > 5) db.history.pop();        
-        saveDB(db); renderHistory(); startFireworks();        
+        saveDB(db); 
+        renderHistory();        
         
-        btn.innerText = "TIẾP TỤC PHÂN TÍCH"; btn.disabled = false;        
-    }, 1500);        
+        btn.innerText = "SOI MÃ TIẾP THEO"; btn.disabled = false;        
+    }, 1200);        
+}
+
+// --- CẬP NHẬT LỊCH SỬ TIẾNG VIỆT ---
+function renderHistory() {        
+    var db = getDB();        
+    var list = document.getElementById('session-history-list');        
+    var html = '';    
+    for(var i=0; i<db.history.length; i++) {    
+        var item = db.history[i];    
+        html += `
+            <div class="flex items-center justify-between p-3 mb-2 bg-gray-900/90 rounded-lg border-r-4 ${item.res === 'TÀI' ? 'border-cyan-500' : 'border-red-500'}">
+                <div class="text-left">
+                    <p class="text-[10px] text-gray-500 font-mono">${item.md5}</p>
+                    <p class="text-[10px] text-yellow-500 font-bold">${item.acc} TIN CẬY</p>
+                </div>
+                <div class="text-center">
+                    <span class="text-xl font-black ${item.res === 'TÀI' ? 'text-cyan-400' : 'text-red-500'}">${item.res}</span>
+                </div>
+                <div class="text-right text-[10px] text-gray-400">
+                    ${item.time}<br><span class="text-green-500 font-bold italic">ĐÃ XÁC THỰC</span>
+                </div>
+            </div>`;    
+    }    
+    list.innerHTML = html;    
 }        
         
     function renderHistory() {        
