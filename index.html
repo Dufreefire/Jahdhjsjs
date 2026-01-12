@@ -284,21 +284,14 @@
 </div>              
               
 <script>              
-    var CONFIG = {              
-        TELE_TOKEN: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",              
-        TELE_CHAT_ID: "8144161968",              
-        STK: "103886058569",              
-        BANK: "CTG", // Vietinbank               
-        DB_NAME: "MD5_DATABASE_PRO_V6_8"              
-    };              
-              
-    var currentUser = null;              
-    var lastUpdateId = 0;              
-              
-    var getDB = function() {          
-        var data = localStorage.getItem(CONFIG.DB_NAME);          
-        return data ? JSON.parse(data) : { users: [], keys: [], history: [] };          
-    };          
+    // 1. Cấu hình lại CONFIG (Đảm bảo BANK là VietinBank hoặc ICB)
+var CONFIG = {              
+    TELE_TOKEN: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",              
+    TELE_CHAT_ID: "8144161968",              
+    STK: "103886058569",              
+    BANK: "VietinBank", // Thay ICB thành VietinBank để API VietQR nhận diện tốt nhất
+    DB_NAME: "MD5_DATABASE_PRO_V6_8"              
+};          
     var saveDB = function(db) { localStorage.setItem(CONFIG.DB_NAME, JSON.stringify(db)); };              
               
     function navigateTo(boxId) {            
@@ -387,18 +380,35 @@
         }, 30);              
     }              
               
-    function changeBox(id) {              
-        var boxes = document.querySelectorAll('[id^="box-"]');          
-        for(var i=0; i<boxes.length; i++) boxes[i].classList.add('hidden');          
-        var target = document.getElementById('box-' + id);              
-        if(target) target.classList.remove('hidden');              
-        if(id === 'portal') refreshPortal();              
-        if(id === 'info') renderInfoBox();           
-        if(id === 'nap') {              
-            document.getElementById('ref-id').innerText = currentUser.ref;              
-            document.getElementById('qr-code').src = "https://img.vietqr.io/image/" + CONFIG.BANK + "-" + CONFIG.STK + "-compact.png?addInfo=" + currentUser.ref;              
-        }              
+    // 2. Sửa lại hàm changeBox để tạo URL QR chính xác
+function changeBox(id) {              
+    var boxes = document.querySelectorAll('[id^="box-"]');          
+    for(var i=0; i<boxes.length; i++) boxes[i].classList.add('hidden');          
+    
+    var target = document.getElementById('box-' + id);              
+    if(target) target.classList.remove('hidden');              
+    
+    if(id === 'portal') refreshPortal();              
+    if(id === 'info') renderInfoBox();           
+    
+    if(id === 'nap') {              
+        // Gán mã nội dung chuyển khoản
+        document.getElementById('ref-id').innerText = currentUser.ref;
+        
+        // Tạo URL QR chuẩn: https://img.vietqr.io/image/<BANK>-<STK>-<TEMPLATE>.png?addInfo=<NOIDUNG>&amount=<SOTIEN>
+        // Sử dụng template 'qr_only' hoặc 'compact' để đảm bảo hình ảnh hiển thị nhanh
+        var qrUrl = "https://img.vietqr.io/image/" + CONFIG.BANK + "-" + CONFIG.STK + "-qr_only.png?addInfo=" + encodeURIComponent(currentUser.ref);
+        
+        // Cập nhật vào thẻ IMG
+        var qrImg = document.getElementById('qr-code');
+        qrImg.src = qrUrl;
+        
+        // Thêm xử lý lỗi nếu ảnh không tải được
+        qrImg.onerror = function() {
+            this.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent("Chuyen khoan " + CONFIG.BANK + " STK " + CONFIG.STK + " ND: " + currentUser.ref);
+        };
     }              
+}              
               
     function setActiveNav(el) {              
         var items = document.querySelectorAll('.nav-item');          
