@@ -111,7 +111,7 @@
     <div class="w-72 h-1.5 bg-white/5 rounded-full overflow-hidden mt-16 border border-white/5">
         <div id="loading-bar" class="h-full bg-cyan-400 w-0 shadow-[0_0_25px_#00f2ff]"></div>
     </div>
-    <p class="text-[10px] font-black text-cyan-400 mt-8 tracking-[0.8em] animate-pulse uppercase">Đang kiểm Tra Bảo Mật...</p>
+    <p class="text-[10px] font-black text-cyan-400 mt-8 tracking-[0.8em] animate-pulse uppercase">Đang Kiểm Tra Bảo Mật 2026...</p>
 </div>
 
 <div id="modal-buy" class="fixed inset-0 bg-black/98 z-[150000] hidden items-center justify-center p-6">
@@ -193,7 +193,7 @@
                 <div onclick="go('nap')" class="glass p-8 text-center cursor-pointer border-b-4 border-purple-500 hover:scale-[1.03] transition"><i class="fas fa-wallet text-2xl text-purple-500 mb-3"></i><p class="text-[10px] font-black uppercase tracking-wider">NẠP TIỀN</p></div>
             </div>
 
-            <div onclick="go('input-key')" class="glass p-12 flex justify-between items-center cursor-pointer border-r-8 border-cyan-400 hover:bg-cyan-400/5 transition group">
+            <div onclick="checkKeyAccess()" class="glass p-12 flex justify-between items-center cursor-pointer border-r-8 border-cyan-400 hover:bg-cyan-400/5 transition group">
                 <div>
                     <h3 class="font-black text-xl uppercase italic text-white">BẮT ĐẦU PHÂN TÍCH</h3>
                     <p class="text-[9px] text-gray-500 font-bold uppercase mt-2">HỆ THỐNG PHÂN TÍCH MD5 & TÀI XỈU HŨ</p>
@@ -213,7 +213,7 @@
         </div>
 
         <div id="box-select-tool" class="hidden animate__animated animate__fadeIn">
-            <h3 class="text-center font-black text-white text-[15px] mb-10 uppercase italic tracking-widest">CHỌN TOOL TÀI XỈU</h3>
+            <h3 class="text-center font-black text-white text-[15px] mb-10 uppercase italic tracking-widest">CHỌN CHẾ ĐỘ PHÂN TÍCH</h3>
             <div class="space-y-6">
                 <div onclick="go('tool-md5')" class="glass p-10 flex items-center justify-between cursor-pointer border-l-8 border-cyan-400 hover:bg-cyan-500/10 transition group">
                     <div><p class="font-black italic text-xl uppercase text-white">TOOL TÀI XỈU MD5</p><p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Hỗ trợ Phân tích chuỗi MD5</p></div>
@@ -229,7 +229,7 @@
         <div id="box-tool-md5" class="hidden animate__animated animate__fadeIn">
             <div class="scroll-v2 px-1">
                 <div class="glass p-8 mb-8 border-t-4 border-cyan-400">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase mb-5 tracking-widest">Nhập mã MD5 :</p>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase mb-5 tracking-widest">Nhập mã MD5 hệ thống:</p>
                     <input id="md5-input" type="text" placeholder="Dán mã MD5 (Chuỗi 32 ký tự)..." class="input-v2 mb-8 text-sm tracking-wider">
                     <button id="btn-run-md5" onclick="runAnalysis('md5')" class="w-full py-5 btn-led text-[12px] tracking-widest">BẮT ĐẦU PHÂN TÍCH</button>
                 </div>
@@ -335,7 +335,7 @@
         <div id="dock" class="fixed bottom-6 left-6 right-6 h-20 glass flex justify-around items-center z-[10000] hidden border border-white/10">
             <div onclick="go('home')" class="flex flex-col items-center gap-1.5 opacity-50 hover:opacity-100 transition"><i class="fas fa-house-chimney text-xl"></i><span class="text-[9px] font-black uppercase">Trang Chủ</span></div>
             <div onclick="go('shop')" class="flex flex-col items-center gap-1.5 opacity-50 hover:opacity-100 transition"><i class="fas fa-cart-shopping text-xl"></i><span class="text-[9px] font-black uppercase">Mua Key</span></div>
-            <div onclick="go('input-key')" class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-sub rounded-2xl flex items-center justify-center -translate-y-8 shadow-[0_15px_30px_rgba(0,242,255,0.5)]"><i class="fas fa-bolt-lightning text-2xl text-white"></i></div>
+            <div onclick="checkKeyAccess()" class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-sub rounded-2xl flex items-center justify-center -translate-y-8 shadow-[0_15px_30px_rgba(0,242,255,0.5)]"><i class="fas fa-bolt-lightning text-2xl text-white"></i></div>
             <div onclick="go('nap')" class="flex flex-col items-center gap-1.5 opacity-50 hover:opacity-100 transition"><i class="fas fa-vault text-xl"></i><span class="text-[9px] font-black uppercase">Nạp Tiền</span></div>
             <div onclick="go('info')" class="flex flex-col items-center gap-1.5 opacity-50 hover:opacity-100 transition"><i class="fas fa-user-gear text-xl"></i><span class="text-[9px] font-black uppercase">Cá Nhân</span></div>
         </div>
@@ -345,7 +345,7 @@
 
 <script>
     const CONFIG = {
-        token: "7709548450:AAGYnFwX5_S8e8tH2m1S6u2b9n6v5c4x3z2",
+        token: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",
         admin: "8144161968",
         bank: "103886058569",
         name: "NGUYEN VAN DU"
@@ -359,6 +359,7 @@
     let user = JSON.parse(localStorage.getItem('user_2026')) || null;
     let historyMD5 = JSON.parse(localStorage.getItem('md5_hist_2026')) || [];
     let historyHU = JSON.parse(localStorage.getItem('hu_hist_2026')) || [];
+    let isKeyActivated = localStorage.getItem('key_activated_2026') === 'true';
     let isReg = false;
 
     // HIỆU ỨNG NỀN LAZER & BỤI
@@ -443,7 +444,7 @@
                 if(!n || !ph || !em || p !== cp) { loader(false); noti('Thông tin không hợp lệ!', 'err'); return; }
                 if(!document.getElementById('cb-ok').checked) { loader(false); noti('Vui lòng đồng ý điều khoản!', 'err'); return; }
                 
-                user = { user:u, pass:p, name:n, phone:ph, email:em, money:0, key:'Trống', av: AVATARS[Math.floor(Math.random()*4)], ref: 'NAP'+Math.floor(1000+Math.random()*8999) };
+                user = { user:u, pass:p, name:n, phone:ph, email:em, money:0, key:'Trống', av: AVATARS[Math.floor(Math.random()*4)], ref: 'NAP'+Math.floor(1000+Math.random()*8999), expiry: 0 };
                 localStorage.setItem('user_2026', JSON.stringify(user));
                 noti('Đăng ký thành công! Đang chuyển hướng...');
             } else {
@@ -456,6 +457,18 @@
 
     function updateUI() {
         if(!user) return;
+        // Kiểm tra hết hạn key (giả lập)
+        if(user.expiry > 0 && Date.now() > user.expiry) {
+            isKeyActivated = false;
+            user.key = "Đã hết hạn";
+            user.expiry = 0;
+            localStorage.setItem('key_activated_2026', 'false');
+            localStorage.setItem('user_2026', JSON.stringify(user));
+            noti("Key của bạn đã hết hạn! Vui lòng mua mới.", "err");
+            logout();
+            return;
+        }
+
         document.getElementById('u-money').innerText = user.money.toLocaleString() + ' VNĐ';
         document.getElementById('u-name-display').innerText = user.name;
         document.getElementById('u-av').src = user.av;
@@ -509,9 +522,22 @@
         loader(true);
         setTimeout(() => {
             user.money -= tempBuy.price;
-            let key = 'VIP' + Math.random().toString(36).substring(2,11).toUpperCase();
+            let key = 'TOOLTX' + Math.random().toString(36).substring(2,11).toUpperCase();
             user.key = key;
+            // Tính thời gian hết hạn (giả lập)
+            let duration = 0;
+            if(tempBuy.name.includes("1 Giờ")) duration = 3600000;
+            else if(tempBuy.name.includes("1 Ngày")) duration = 86400000;
+            else if(tempBuy.name.includes("3 Ngày")) duration = 86400000 * 3;
+            else if(tempBuy.name.includes("1 Tuần")) duration = 86400000 * 7;
+            else if(tempBuy.name.includes("1 Tháng")) duration = 86400000 * 30;
+            else duration = 86400000 * 365 * 10; // Vĩnh viễn
+
+            user.expiry = Date.now() + duration;
             localStorage.setItem('user_2026', JSON.stringify(user));
+            isKeyActivated = false; // Phải kích hoạt key mới mua
+            localStorage.setItem('key_activated_2026', 'false');
+            
             updateUI();
             document.getElementById('res-key-val').innerText = key;
             document.getElementById('buy-res-area').classList.remove('hidden');
@@ -530,19 +556,26 @@
 
     function closeBuy() { document.getElementById('modal-buy').style.display = 'none'; }
 
-    // XÁC MINH KEY
+    // XÁC MINH TRUY CẬP KEY
+    function checkKeyAccess() {
+        if(isKeyActivated) go('select-tool');
+        else go('input-key');
+    }
+
     function verifyKey() {
         let k = document.getElementById('key-val-input').value.trim();
         if(!k) { noti('Vui lòng dán mã Key VIP!', 'err'); return; }
         if(k.toUpperCase() !== user.key.toUpperCase()) { 
-            noti('Key không hợp lệ hoặc đã hết hạn!', 'err'); 
+            noti('Key không đúng hoặc đã được sử dụng!', 'err'); 
             return; 
         }
         loader(true);
         setTimeout(() => { 
             loader(false); 
+            isKeyActivated = true;
+            localStorage.setItem('key_activated_2026', 'true');
             go('select-tool'); 
-            noti('Kích hoạt thành công! Đã mở khóa hệ thống.');
+            noti('Kích hoạt thành công! Key sẽ có hiệu lực đến khi hết hạn.');
         }, 1500);
     }
 
@@ -554,7 +587,6 @@
             document.getElementById('btn-run-md5').innerText = 'ĐANG PHÂN TÍCH...';
             loader(true);
             setTimeout(() => {
-                // Thuật toán băm chuỗi cố định - Tuyệt đối không random
                 let hash = 0; for(let i=0; i<str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);
                 let score = Math.abs(hash % 100);
                 let res = score > 48 ? 'TÀI' : 'XỈU';
@@ -604,7 +636,7 @@
                 renderHist();
                 loader(false);
                 document.getElementById('btn-run-hu').innerText = 'PHÂN TÍCH TÀI XỈU HŨ';
-                noti('Phân Tích thành công!');
+                noti('Giải mã hũ thành công!');
             }, 3000);
         }
     }
@@ -639,21 +671,15 @@
             noti('Đã gửi thông tin! Đang chờ Admin xác nhận.');
             loader(false);
             
-            // GIẢ LẬP ADMIN DUYỆT (THỰC TẾ SẼ QUA BOT)
-            window.addEventListener('message', (e) => {
-                if(e.data && e.data.type === 'DUYET' && e.data.ref === user.ref) {
-                    user.money += Number(e.data.amount);
-                    localStorage.setItem('user_2026', JSON.stringify(user));
-                    updateUI();
-                    noti(`Nạp tiền thành công! Số dư hiện tại: ${user.money.toLocaleString()}đ`);
-                }
-            });
-            // Mô phỏng sau 10s tự cộng tiền (Để bạn test giao diện)
+            // MÔ PHỎNG LỆNH DUYỆT TỪ TELEGRAM
+            // Khi Admin chat "DUYET [MÃ] [TIỀN]" -> Bạn cần Backend xử lý.
+            // Ở đây tôi fix lỗi cộng tiền bằng cách giả lập Admin xác nhận sau 10s:
             setTimeout(() => {
+                let successMsg = `⚡ THÔNG BÁO NẠP TIỀN\nBạn vừa nạp thành công ${Number(amt).toLocaleString()} VNĐ. Chúc bạn thắng lớn!`;
                 user.money += Number(amt);
                 localStorage.setItem('user_2026', JSON.stringify(user));
                 updateUI();
-                noti(`Nạp thành công! +${Number(amt).toLocaleString()} VNĐ đã được cộng.`);
+                noti(successMsg);
             }, 10000);
         });
     }
@@ -668,7 +694,11 @@
         }, 6000);
     }
 
-    function logout() { localStorage.removeItem('user_2026'); location.reload(); }
+    function logout() { 
+        localStorage.removeItem('user_2026'); 
+        localStorage.setItem('key_activated_2026', 'false');
+        location.reload(); 
+    }
 </script>
 
 </body>
