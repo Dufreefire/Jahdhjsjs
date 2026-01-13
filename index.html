@@ -208,7 +208,7 @@
                 </div>
                 
                 <div id="p-p1" class="p-8">
-                    <textarea id="hash-input" placeholder="DÁN MÃ HASH MD5 TẠI ĐÂY..." class="input-v2 h-32 text-cyan-400 font-bold text-center mb-6 resize-none border-dashed border-2"></textarea>
+                    <textarea id="hash-input" placeholder="DÁN MÃ MD5 TẠI ĐÂY..." class="input-v2 h-32 text-cyan-400 font-bold text-center mb-6 resize-none border-dashed border-2"></textarea>
                     <button id="btn-ana" onclick="startAnalysis()" class="w-full py-4 btn-cyber text-[10px] font-black italic uppercase">BẮT ĐẦU PHÂN TÍCH</button>
                     
                     <div id="res-box" class="mt-8 hidden animate__animated animate__zoomIn">
@@ -418,36 +418,69 @@
         showLoad("Đang kích hoạt...", 1500, () => { toast("KÍCH HOẠT THÀNH CÔNG!"); openTool(); });
     }
 
-    function startAnalysis() {
+function startAnalysis() {
         const hash = document.getElementById('hash-input').value.trim();
         if(hash.length < 10) return toast("Mã MD5 không hợp lệ!", "error");
-        document.getElementById('btn-ana').innerText = "ĐANG PHÂN TÍCH...";
+        
+        // Hiệu ứng nút bấm chuyên nghiệp
+        document.getElementById('btn-ana').innerText = "ĐANG PHÂN TÍCH DỮ LIỆU...";
         document.getElementById('btn-ana').disabled = true;
+        document.getElementById('res-box').classList.add('hidden'); // Ẩn kết quả cũ khi đang phân tích mới
         
         setTimeout(() => {
             document.getElementById('res-box').classList.remove('hidden');
-            // THUẬT TOÁN ASCII THỰC (md5.org/md5.com logic)
+            
+            // THUẬT TOÁN PHÂN TÍCH ASCII KẾT HỢP MD5.ORG
             const sum = hash.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+            
+            // Xác định kết quả dựa trên số dư
             const res = (sum % 2 === 0) ? "TÀI" : "XỈU";
-            const acc = Math.floor(92 + (sum % 8));
+            
+            // CẬP NHẬT LOGIC PHẦN TRĂM: Dao động từ 55% đến 80%
+            // Công thức: 55 + (tổng mã ASCII chia lấy dư cho 26) -> Kết quả luôn từ 55 đến 80
+            const acc = 55 + (sum % 26); 
+            
+            // Tính toán thanh LED %
             const pctT = res === "TÀI" ? acc : 100 - acc;
+            const pctX = 100 - pctT;
 
+            // Hiển thị kết quả chữ
             document.getElementById('v-res').innerText = res;
             document.getElementById('v-res').style.color = res === "TÀI" ? "var(--main)" : "var(--danger)";
+            
+            // Hiển thị độ chính xác (Accuracy)
             document.getElementById('v-acc').innerText = acc + "%";
-            document.getElementById('p-t').innerText = pctT; document.getElementById('p-x').innerText = 100-pctT;
-            document.getElementById('b-t').style.width = pctT + "%"; document.getElementById('b-x').style.width = (100-pctT) + "%";
+            
+            // Cập nhật số liệu trên thanh LED
+            document.getElementById('p-t').innerText = pctT; 
+            document.getElementById('p-x').innerText = pctX;
+            
+            // Cập nhật độ dài thanh LED màu sắc
+            document.getElementById('b-t').style.width = pctT + "%"; 
+            document.getElementById('b-x').style.width = pctX + "%";
 
+            // Khôi phục trạng thái nút
             document.getElementById('btn-ana').innerText = "BẮT ĐẦU PHÂN TÍCH";
             document.getElementById('btn-ana').disabled = false;
-            let db = getDB(); db.h.push({ u: current.u, hash, res, acc, time: new Date().toLocaleTimeString() });
-            setDB(db); upd();
-        }, 3000);
+
+            // LƯU LỊCH SỬ PHÂN TÍCH (Đảm bảo không mất dữ liệu)
+            let db = getDB(); 
+            db.h.push({ 
+                u: current.u, 
+                hash: hash, 
+                res: res, 
+                acc: acc, 
+                time: new Date().toLocaleTimeString() 
+            });
+            setDB(db); 
+            upd(); // Cập nhật lại giao diện lịch sử ngay lập tức
+            
+        }, 3500); // Thời gian chờ 3.5s tạo cảm giác đang giải mã thực sự
     }
 
     function startNotify() {
         const users = ["Khánh***", "Văn***", "Admin***", "Dũng***", "Trang***", "Hoàng***", "Sơn***", "Thắng***"];
-        const acts = ["Vừa mua gói 1 Ngày", "Vừa nạp 100,000đ", "Vừa phân tích MD5 thành công", "", "Vừa kích hoạt Key Vĩnh Viễn"];
+        const acts = ["Vừa mua gói 1 Ngày", "Vừa nạp 100,000đ", "Vừa phân tích MD5 thành công", "Mua Key 20.000đ Thành Công", "Vừa kích hoạt Key Vĩnh Viễn"];
         setInterval(() => {
             const u = users[Math.floor(Math.random()*users.length)];
             const a = acts[Math.floor(Math.random()*acts.length)];
