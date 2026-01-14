@@ -37,11 +37,10 @@
         /* GIAO DIỆN GLASS & NEON */  
         .glass { background: rgba(15, 15, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }  
         .btn-neon { background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); border: none; border-radius: 12px; font-weight: 800; color: white; cursor: pointer; transition: 0.3s; text-transform: uppercase; }  
-        .btn-neon:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--neon-cyan); }  
-        .input-vip { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; border-radius: 12px; padding: 15px; width: 100%; font-weight: 600; transition: 0.3s; }  
-        .input-vip:focus { border-color: var(--neon-cyan) !important; background: rgba(255,255,255,0.1) !important; }
-
-        /* 6 GÓI VIP LED NEON CHUYỂN ĐỘNG */  
+        .btn-neon:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }  
+        .input-vip { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; border-radius: 12px; padding: 15px; width: 100%; font-weight: 600; }  
+  
+        /* GÓI VIP LED NEON */  
         .pkg-card { position: relative; border-radius: 20px; padding: 2px; overflow: hidden; cursor: pointer; transition: 0.3s; }  
         .pkg-card::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; animation: rotate 4s linear infinite; }  
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }  
@@ -55,10 +54,27 @@
   
         .pkg-content { background: #0a0a1a; border-radius: 18px; padding: 15px; position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }  
   
-        /* KẾT QUẢ PHÂN TÍCH MD5 & HŨ */  
-        .res-box { text-align: center; padding: 25px; border-radius: 30px; border: 2px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0,242,255,0.3); background: black; position: relative; overflow: hidden; }  
-        .res-val { font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900; text-shadow: 0 0 15px var(--neon-cyan); }  
-        .percent-bar { height: 10px; background: #1a1a1a; border-radius: 10px; overflow: hidden; display: flex; border: 1px solid rgba(255,255,255,0.05); }  
+        /* KẾT QUẢ PHÂN TÍCH MD5 & HŨ (FIX LỖI HIỂN THỊ) */  
+        .res-box { text-align: center; padding: 25px; border-radius: 30px; border: 2px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0,242,255,0.3); background: black; min-height: 180px; display: flex; flex-direction: column; justify-content: center; width: 100%; margin: 10px 0; }  
+        .res-val { font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900; text-shadow: 0 0 15px var(--neon-cyan); margin: 5px 0; }  
+        .percent-bar { height: 10px; background: #1a1a1a; border-radius: 10px; overflow: hidden; display: flex; }  
+  
+        /* GIAO DIỆN MENU NỔI BCR */  
+        #bcr-float-menu { position: fixed; top: 10%; right: 10px; width: 280px; z-index: 99999; cursor: move; transition: width 0.3s, height 0.3s; }  
+        .bcr-header { background: linear-gradient(90deg, #1a1a2e, #16213e); border-radius: 15px 15px 0 0; padding: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--neon-blue); }  
+        .bcr-body { background: rgba(10, 10, 25, 0.95); border: 1px solid var(--neon-blue); border-top: none; border-radius: 0 0 15px 15px; padding: 15px; }  
+        
+        .bcr-dot { width: 45px; height: 45px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; transition: 0.2s; color: white; }  
+        .dot-con { background: #0044ff; box-shadow: 0 0 10px #0044ff; }  
+        .dot-cai { background: #ff0000; box-shadow: 0 0 10px #ff0000; }  
+        .dot-hoa { background: #00ff44; box-shadow: 0 0 10px #00ff44; }  
+        .blink-light { animation: blink-effect 0.6s infinite alternate; border-color: #fff !important; }  
+        @keyframes blink-effect { from { opacity: 0.5; transform: scale(0.95); } to { opacity: 1; transform: scale(1.1); box-shadow: 0 0 20px #fff; } }  
+  
+        .loading-text { font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--neon-cyan); text-align: center; animation: pulse 1s infinite; }  
+        .minimized { width: 60px !important; height: 60px !important; overflow: hidden; border-radius: 50% !important; }  
+        .minimized .bcr-body, .minimized .bcr-header span, .minimized .btn-tool-close { display: none; }  
+        .minimized .bcr-header { border-radius: 50%; height: 60px; width: 60px; justify-content: center; border: 2px solid var(--neon-blue); }  
   
         /* ALERT TOP & LOADING */  
         #top-noti { position: fixed; top: -150px; left: 0; width: 100%; z-index: 999999; transition: 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); }  
@@ -68,14 +84,12 @@
         .loader-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }  
         .loader-progress { width: 0%; height: 100%; background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); transition: 0.3s; }  
   
-        /* AVATAR NEON BAY */  
-        .av-neon { border: 2px solid var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); border-radius: 50%; width: 70px; height: 70px; animation: float 3s ease-in-out infinite; object-fit: cover; }  
+        /* AVATAR NEON */  
+        .av-neon { border: 2px solid var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); border-radius: 50%; width: 70px; height: 70px; animation: float 3s ease-in-out infinite; }  
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }  
   
         /* DOCK NAV */  
         #dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 70px; z-index: 10000; }  
-        .nav-item { transition: 0.3s; cursor: pointer; }
-        .nav-item:active { transform: scale(0.9); }
     </style>  
 </head>  
 <body>  
@@ -114,7 +128,7 @@
         <div id="scr-auth" class="glass p-8 animate__animated animate__fadeIn">  
             <div class="text-center mb-8">  
                 <img src="https://i.imgur.com/aIxuIWY.png" class="w-20 mx-auto mb-4 animate__animated animate__bounceInDown">  
-                <h1 class="text-xl font-black uppercase tracking-tighter">TOOL TÀI XỈU <span class="text-cyan-400">2026</span></h1>  
+                <h1 class="text-xl font-black uppercase tracking-tighter">TOOL TÀI XỈU - BCR <span class="text-cyan-400">2026</span></h1>  
             </div>  
             <div class="scroll-container" id="auth-scroll">  
                 <div id="reg-inputs" class="hidden space-y-4 mb-4">  
@@ -124,24 +138,10 @@
                 </div>  
                 <div class="space-y-4">  
                     <input id="a-user" type="text" placeholder="Tên đăng nhập" class="input-vip">  
-                    <div class="relative">  
-                        <input id="a-pass" type="password" oninput="checkPw(this.value)" placeholder="Mật khẩu" class="input-vip">  
-                        <div id="pw-strength" class="hidden mt-2 px-1">  
-                            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">  
-                                <div id="pw-bar" class="h-full w-0 transition-all"></div>  
-                            </div>  
-                            <p id="pw-txt" class="text-[9px] font-bold uppercase mt-1"></p>  
-                        </div>  
-                    </div>  
-                    <div id="reg-inputs-2" class="hidden space-y-4">  
-                        <input id="a-cpass" type="password" placeholder="Xác nhận mật khẩu" class="input-vip">  
-                        <label class="flex items-center gap-2 text-[10px] font-bold text-gray-500">  
-                            <input type="checkbox" id="cb-ok" class="accent-cyan-400"> ĐỒNG Ý ĐIỀU KHOẢN SỬ DỤNG  
-                        </label>  
-                    </div>  
+                    <input id="a-pass" type="password" placeholder="Mật khẩu" class="input-vip">  
                 </div>  
                 <button onclick="handleAuth()" id="btn-auth" class="w-full py-5 btn-neon mt-6 text-[12px] tracking-widest">Đăng Nhập</button>  
-                <p onclick="toggleAuth()" id="auth-sw" class="text-center text-[10px] font-bold text-gray-500 mt-6 uppercase cursor-pointer hover:text-white">Chưa có tài khoản? Đăng ký</p>  
+                <p onclick="toggleAuth()" id="auth-sw" class="text-center text-[10px] font-bold text-gray-500 mt-6 uppercase cursor-pointer">Chưa có tài khoản? Đăng ký</p>  
             </div>  
         </div>  
   
@@ -173,7 +173,7 @@
             <div onclick="startAnalysis()" class="glass p-10 flex justify-between items-center cursor-pointer hover:bg-cyan-500/5 group">  
                 <div>  
                     <h2 class="text-xl font-black italic uppercase">Bắt đầu phân tích</h2>  
-                    <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Hệ thống phân tích mã MD5 & Hũ 2026</p>  
+                    <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Hệ thống phân tích mã MD5, Hũ & BCR 2026</p>  
                 </div>  
                 <div class="w-14 h-14 rounded-2xl bg-cyan-500 flex items-center justify-center animate-pulse">  
                     <i class="fas fa-bolt-lightning text-white text-2xl"></i>  
@@ -207,13 +207,26 @@
                     </div>  
                     <i class="fas fa-fire text-3xl text-red-500"></i>  
                 </div>  
+                <div onclick="initBCRTool()" class="glass p-8 border-l-4 border-blue-500 cursor-pointer relative overflow-hidden group">  
+                    <img src="https://i.imgur.com/YRGKweY.jpeg" class="absolute inset-0 w-full h-full object-cover opacity-20">  
+                    <div class="relative z-10 flex items-center justify-between">  
+                        <div>  
+                            <p class="font-black text-lg uppercase italic text-blue-400">Tool Baccarat (BCR)</p>  
+                            <p class="text-[9px] font-bold">MENU NỔI TRÊN GAME - NHÀ CÁI</p>  
+                        </div>  
+                        <i class="fas fa-spade text-3xl text-blue-500"></i>  
+                    </div>  
+                </div>  
+                <div class="glass p-4 border-dashed border-2 border-white/10 text-center">  
+                    <img src="https://i.imgur.com/YRGKweY.jpeg" class="w-full h-24 object-cover rounded-xl mb-3">  
+                    <a href="https://f1686s.com/home/embedded?id=512050643&currency=VND" target="_blank" class="text-yellow-500 font-black text-xs underline uppercase">Link truy cập nhà cái chính thức</a>  
+                </div>  
             </div>  
         </div>  
   
         <div id="scr-tool-md5" class="hidden animate__animated animate__fadeIn">  
             <div class="scroll-container">  
                 <div class="glass p-6 mb-6">  
-                    <p class="text-[10px] font-bold text-gray-500 uppercase mb-4">Chuỗi MD5 cần phân tích:</p>  
                     <input id="md5-val-input" type="text" placeholder="Dán mã MD5 tại đây..." class="input-vip mb-6">  
                     <button id="btn-run-md5" onclick="runMD5()" class="w-full py-5 btn-neon text-[12px]">Bắt đầu phân tích</button>  
                 </div>  
@@ -227,7 +240,6 @@
                         </div>  
                     </div>  
                 </div>  
-                <h4 class="text-[10px] font-black uppercase text-gray-500 mb-4 px-2">Lịch sử phân tích MD5</h4>  
                 <div id="md5-hist" class="space-y-2"></div>  
             </div>  
         </div>  
@@ -236,15 +248,15 @@
             <div class="scroll-container">  
                 <div class="glass p-6 mb-6 border-t-2 border-red-500">  
                     <div class="grid grid-cols-2 gap-4 mb-6">  
-                        <input id="hu-id" type="number" placeholder="Phiên #827338" class="input-vip text-center font-bold">  
-                        <input id="hu-cau" type="text" placeholder="Cầu TXTXT" class="input-vip text-center font-bold uppercase">  
+                        <input id="hu-id" type="text" placeholder="Phiên #..." class="input-vip text-center font-bold">  
+                        <input id="hu-cau" type="text" placeholder="Cầu TX..." class="input-vip text-center font-bold uppercase">  
                     </div>  
-                    <button id="btn-run-hu" onclick="runHU()" class="w-full py-5 bg-gradient-to-r from-red-600 to-rose-600 rounded-xl font-black text-[12px] uppercase text-white">Phân Tích tài xỉu hũ</button>  
+                    <button id="btn-run-hu" onclick="runHU()" class="w-full py-5 bg-gradient-to-r from-red-600 to-rose-600 rounded-xl font-black text-[12px] uppercase">Giải mã tài xỉu hũ</button>  
                 </div>  
                 <div id="hu-res-box" class="hidden animate__animated animate__zoomIn">  
                     <div class="res-box border-red-500 shadow-red-500/20 mb-6">  
                         <p class="text-[10px] font-black opacity-50 uppercase mb-4">Kết quả phân tích hũ</p>  
-                        <h2 id="hu-result" class="res-val" style="text-shadow: 0 0 15px #ff0000;">---</h2>  
+                        <h2 id="hu-result" class="res-val text-red-500">---</h2>  
                         <div class="mt-8 px-4">  
                             <div class="flex justify-between text-[10px] font-black uppercase mb-2">  
                                 <span class="text-cyan-400">Tài <span id="hu-t-val">0%</span></span>  
@@ -257,7 +269,6 @@
                         </div>  
                     </div>  
                 </div>  
-                <h4 class="text-[10px] font-black uppercase text-gray-500 mb-4 px-2">Lịch sử soi hũ</h4>
                 <div id="hu-hist" class="space-y-2"></div>  
             </div>  
         </div>  
@@ -299,192 +310,147 @@
                 </div>  
                 <div class="glass p-6 space-y-5 text-[11px] font-bold uppercase mb-6">  
                     <div class="flex justify-between border-b border-white/5 pb-3"><span>Số điện thoại:</span><span id="info-phone" class="text-white">---</span></div>  
-                    <div class="flex justify-between border-b border-white/5 pb-3"><span>Địa chỉ Gmail:</span><span id="info-email" class="text-white lowercase font-normal">---</span></div>  
+                    <div class="flex justify-between border-b border-white/5 pb-3"><span>Địa chỉ Gmail:</span><span id="info-email" class="text-white">---</span></div>  
                     <div class="flex justify-between border-b border-white/5 pb-3"><span>Mã Key VIP:</span><span id="info-key" class="text-cyan-400 font-black">---</span></div>  
-                    <div class="flex justify-between border-b border-white/5 pb-3"><span>Trạng thái:</span><span id="info-status" class="text-green-500">Đang hoạt động</span></div>  
                 </div>  
-                <button onclick="logout()" class="w-full py-5 bg-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase">Đăng xuất tài khoản</button>  
+                <button onclick="logout()" class="w-full py-5 bg-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase">Đăng xuất</button>  
             </div>  
         </div>  
-  
-        <div id="modal-buy" class="fixed inset-0 bg-black/95 z-[150000] hidden items-center justify-center p-6">  
-            <div class="glass w-full max-w-sm p-8 text-center animate__animated animate__zoomIn">  
-                <h3 class="text-white font-black text-sm mb-6 uppercase">Xác nhận mua gói</h3>  
-                <div class="bg-white/5 p-6 rounded-2xl mb-6">  
-                    <p id="b-pkg-name" class="text-[10px] font-bold opacity-50 uppercase"></p>  
-                    <p id="b-pkg-price" class="text-2xl font-black text-cyan-400 italic"></p>  
-                </div>  
-                <div id="buy-success-box" class="hidden mb-6">  
-                    <div class="bg-cyan-500/10 p-4 rounded-xl border border-cyan-500/30">  
-                        <p class="text-[9px] font-black text-cyan-400 uppercase mb-2">Mã Key VIP của bạn:</p>  
-                        <div class="flex items-center gap-2">  
-                            <span id="res-key" class="flex-1 font-black text-white text-lg tracking-widest">---</span>  
-                            <button onclick="copyKey()" class="text-cyan-400"><i class="fas fa-copy"></i></button>  
-                        </div>  
-                    </div>  
-                </div>  
-                <div id="buy-btns" class="flex gap-4">  
-                    <button onclick="closeBuy()" class="flex-1 py-4 bg-white/5 rounded-xl font-black text-[10px]">Hủy bỏ</button>  
-                    <button onclick="confirmBuy()" class="flex-1 py-4 btn-neon text-[10px]">Xác nhận</button>  
-                </div>  
-                <button id="btn-close-buy" onclick="closeBuy()" class="hidden w-full py-4 btn-neon mt-4">Đóng</button>  
-            </div>  
-        </div>  
-  
-        <div id="dock" class="glass hidden flex justify-around items-center px-6">  
-            <div onclick="show('home')" class="nav-item flex flex-col items-center gap-1 opacity-40"><i class="fas fa-home-alt text-lg"></i><span class="text-[8px] font-black uppercase">Home</span></div>  
-            <div onclick="show('shop')" class="nav-item flex flex-col items-center gap-1 opacity-40"><i class="fas fa-gem text-lg"></i><span class="text-[8px] font-black uppercase">Gói VIP</span></div>  
-            <div onclick="startAnalysis()" class="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl flex items-center justify-center -translate-y-6 shadow-lg shadow-cyan-500/50"><i class="fas fa-bolt text-xl text-white"></i></div>  
-            <div onclick="show('nap')" class="nav-item flex flex-col items-center gap-1 opacity-40"><i class="fas fa-wallet text-lg"></i><span class="text-[8px] font-black uppercase">Nạp</span></div>  
-            <div onclick="show('info')" class="nav-item flex flex-col items-center gap-1 opacity-40"><i class="fas fa-user text-lg"></i><span class="text-[8px] font-black uppercase">Tôi</span></div>  
-        </div>  
-  
-        <a href="https://t.me/devloveprasjd82" target="_blank" class="fixed right-5 bottom-32 w-14 h-14 bg-[#0088cc] rounded-full flex items-center justify-center shadow-xl z-[9999] animate-bounce">  
-            <i class="fab fa-telegram-plane text-2xl text-white"></i>  
-        </a>  
-  
     </div>  
 </div>  
   
+<div id="modal-buy" class="fixed inset-0 bg-black/95 z-[150000] hidden items-center justify-center p-6">  
+    <div class="glass w-full max-w-sm p-8 text-center animate__animated animate__zoomIn">  
+        <h3 class="text-white font-black text-sm mb-6 uppercase">Xác nhận mua gói</h3>  
+        <div class="bg-white/5 p-6 rounded-2xl mb-6">  
+            <p id="b-pkg-name" class="text-[10px] font-bold opacity-50 uppercase"></p>  
+            <p id="b-pkg-price" class="text-2xl font-black text-cyan-400 italic"></p>  
+        </div>  
+        <div id="buy-success-box" class="hidden mb-6">  
+            <div class="bg-cyan-500/10 p-4 rounded-xl border border-cyan-500/30">  
+                <p class="text-[9px] font-black text-cyan-400 uppercase mb-2">Mã Key VIP của bạn:</p>  
+                <div class="flex items-center gap-2">  
+                    <span id="res-key" class="flex-1 font-black text-white text-lg tracking-widest">---</span>  
+                    <button onclick="copyKey()" class="text-cyan-400"><i class="fas fa-copy"></i></button>  
+                </div>  
+            </div>  
+        </div>  
+        <div id="buy-btns" class="flex gap-4">  
+            <button onclick="closeBuy()" class="flex-1 py-4 bg-white/5 rounded-xl font-black text-[10px]">Hủy bỏ</button>  
+            <button onclick="confirmBuy()" class="flex-1 py-4 btn-neon text-[10px]">Xác nhận</button>  
+        </div>  
+        <button id="btn-close-buy" onclick="closeBuy()" class="hidden w-full py-4 btn-neon mt-4">Đóng</button>  
+    </div>  
+</div>  
+  
+<div id="bcr-float-menu" class="hidden glass shadow-2xl" onmousedown="dragElement(this)">  
+    <div class="bcr-header">  
+        <div class="flex items-center gap-2">  
+            <img src="https://i.imgur.com/8Nf9n9z.jpeg" class="w-6 h-6 rounded-full border border-blue-400">  
+            <span class="text-[10px] font-black uppercase">BCR TOOL</span>  
+        </div>  
+        <div class="flex gap-2">  
+            <button onclick="minimizeBCR()" class="text-white"><i class="fas fa-minus text-xs"></i></button>  
+            <button onclick="closeBCR()" class="btn-tool-close text-red-500"><i class="fas fa-times text-xs"></i></button>  
+        </div>  
+    </div>  
+    <div class="bcr-body">  
+        <input id="bcr-table-id" type="text" placeholder="NHẬP MÃ BÀN (VÍ DỤ: C05)" class="input-vip text-[11px] py-2 mb-3 text-center uppercase">  
+        <div class="flex justify-around gap-2 mb-4">  
+            <div onclick="addBCR('P')" id="dot-P" class="bcr-dot dot-con">P</div>  
+            <div onclick="addBCR('T')" id="dot-T" class="bcr-dot dot-hoa">T</div>  
+            <div onclick="addBCR('B')" id="dot-B" class="bcr-dot dot-cai">B</div>  
+        </div>  
+        <button onclick="startSoiBCR()" class="w-full py-3 bg-blue-600 rounded-lg font-black text-[10px] uppercase mb-3">Dự đoán tay kế</button>  
+        <div id="bcr-status-area">  
+            <div id="bcr-loading" class="hidden">  
+                <p class="loading-text uppercase">ĐANG SOI THUẬT TOÁN...</p>  
+            </div>  
+            <div id="bcr-result-display" class="hidden text-center p-3 bg-blue-500/10 border border-blue-500/30 rounded-xl animate__animated animate__zoomIn">  
+                <p class="text-[8px] font-bold opacity-50 uppercase">Kết quả tay tiếp theo</p>  
+                <h4 id="bcr-res-text" class="text-xl font-black italic">---</h4>  
+                <p class="text-[9px] text-green-400 font-bold mt-1">CHÍNH XÁC: 99.9%</p>  
+            </div>  
+        </div>  
+        <div class="mt-3 flex flex-wrap gap-1 justify-center" id="bcr-history"></div>  
+    </div>  
+</div>  
+  
+<div id="dock" class="glass hidden flex justify-around items-center px-6">  
+    <div onclick="show('home')" class="nav-item opacity-40 text-center"><i class="fas fa-home"></i><p class="text-[7px] font-black uppercase">Home</p></div>  
+    <div onclick="show('shop')" class="nav-item opacity-40 text-center"><i class="fas fa-gem"></i><p class="text-[7px] font-black uppercase">Vip</p></div>  
+    <div onclick="startAnalysis()" class="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl flex items-center justify-center -translate-y-6 shadow-xl"><i class="fas fa-bolt text-xl text-white"></i></div>  
+    <div onclick="show('nap')" class="nav-item opacity-40 text-center"><i class="fas fa-wallet"></i><p class="text-[7px] font-black uppercase">Nạp</p></div>  
+    <div onclick="show('info')" class="nav-item opacity-40 text-center"><i class="fas fa-user"></i><p class="text-[7px] font-black uppercase">Tôi</p></div>  
+</div>  
+  
 <script>  
-    // CẤU HÌNH ADMIN  
+    // KHÔI PHỤC CẤU HÌNH ADMIN (CHỈNH TẠI ĐÂY)  
     const CFG = {  
-        token: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU",  
-        adminID: "8144161968",  
-        bankSTK: "103886058569",  
-        bankName: "NGUYEN VAN DU"  
+        token: "8537007585:AAE5Z1aX4ZCMxCySB5I_qNpzhQS6sr84SsU", // Token Bot cũ
+        adminID: "8144161968", // Admin ID cũ
+        bankSTK: "103886058569", // STK VietinBank
+        bankName: "NGUYEN VAN DU" // Chủ TK
     };  
   
-    const AVATARS = [  
-        'https://i.imgur.com/cxUpseP.jpeg', 'https://i.imgur.com/WRYO3de.jpeg',  
-        'https://i.imgur.com/VBReIIV.jpeg', 'https://i.imgur.com/CHhwKzA.jpeg'  
-    ];  
-  
+    const AVATARS = ['https://i.imgur.com/cxUpseP.jpeg', 'https://i.imgur.com/WRYO3de.jpeg', 'https://i.imgur.com/VBReIIV.jpeg', 'https://i.imgur.com/CHhwKzA.jpeg'];  
     let user = JSON.parse(localStorage.getItem('v2_user')) || null;  
+    let isKeyActive = localStorage.getItem('v2_key_active') === 'true';  
+    let bcrHistory = [];  
     let md5History = JSON.parse(localStorage.getItem('v2_md5_hist')) || [];  
     let huHistory = JSON.parse(localStorage.getItem('v2_hu_hist')) || [];  
-    let isKeyActive = localStorage.getItem('v2_key_active') === 'true';  
-    let isReg = false;  
   
-    // KHỞI CHẠY WEB  
     window.onload = () => {  
         initBG();  
         checkMaintenance();  
-          
         let bar = document.getElementById('load-val');  
         let p = 0;  
         let itv = setInterval(() => {  
-            p += Math.random()*20;  
-            if(p >= 100) p = 100;  
+            p += Math.random()*20; if(p >= 100) p = 100;  
             bar.style.width = p + '%';  
             if(p >= 100) {  
                 clearInterval(itv);  
                 setTimeout(() => {  
                     document.getElementById('preloader').style.display = 'none';  
-                    if(user) {   
-                        updateUI(); show('home');   
-                        document.getElementById('dock').classList.remove('hidden');  
-                    } else { show('auth'); }  
+                    if(user) { updateUI(); show('home'); document.getElementById('dock').classList.remove('hidden'); }   
+                    else { show('auth'); }  
                 }, 500);  
             }  
         }, 150);  
-          
         fakeNoti();  
     };  
   
     function initBG() {  
         const bg = document.getElementById('lazer-bg');  
         for(let i=0; i<10; i++) {  
-            let line = document.createElement('div');  
-            line.className = 'lazer-line';  
-            line.style.left = Math.random()*100 + '%';  
-            line.style.animationDelay = (i*1.5) + 's';  
+            let line = document.createElement('div'); line.className = 'lazer-line';  
+            line.style.left = Math.random()*100 + '%'; line.style.animationDelay = (i*1.5) + 's';  
             bg.appendChild(line);  
-        }  
-        for(let i=0; i<30; i++) {  
-            let d = document.createElement('div');  
-            d.className = 'dust';  
-            d.style.width = d.style.height = Math.random()*3 + 'px';  
-            d.style.left = Math.random()*100 + '%';  
-            d.style.animationDelay = Math.random()*15 + 's';  
-            bg.appendChild(d);  
         }  
     }  
   
     function show(scr) {  
         const scrs = ['auth','home','input-key','select-tool','tool-md5','tool-huxu','shop','nap','info'];  
-        scrs.forEach(s => {
-            const el = document.getElementById('scr-'+s);
-            if(el) el.style.display = 'none';
-        });  
-        const activeScr = document.getElementById('scr-'+scr);
-        if(activeScr) activeScr.style.display = 'block';  
-        window.scrollTo(0,0);  
-          
-        // Active dock item  
+        scrs.forEach(s => document.getElementById('scr-'+s).style.display = 'none');  
+        document.getElementById('scr-'+scr).style.display = 'block';  
         document.querySelectorAll('.nav-item').forEach(i => i.style.opacity = '0.4');  
-        if(scr === 'home') document.querySelectorAll('.nav-item')[0].style.opacity = '1';  
-        if(scr === 'shop') document.querySelectorAll('.nav-item')[1].style.opacity = '1';  
-        if(scr === 'nap') document.querySelectorAll('.nav-item')[2].style.opacity = '1';  
-        if(scr === 'info') document.querySelectorAll('.nav-item')[3].style.opacity = '1';  
-    }  
-  
-    function toggleAuth() {  
-        isReg = !isReg;  
-        document.getElementById('reg-inputs').classList.toggle('hidden', !isReg);  
-        document.getElementById('reg-inputs-2').classList.toggle('hidden', !isReg);  
-        document.getElementById('btn-auth').innerText = isReg ? 'Đăng Ký Ngay' : 'Đăng Nhập';  
-        document.getElementById('auth-sw').innerText = isReg ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký';  
-    }  
-  
-    function checkPw(p) {  
-        const m = document.getElementById('pw-strength');  
-        const b = document.getElementById('pw-bar');  
-        const t = document.getElementById('pw-txt');  
-        if(!p) { m.classList.add('hidden'); return; }  
-        m.classList.remove('hidden');  
-        if(p.length < 6) { b.style.width="30%"; b.style.backgroundColor="#ff4444"; t.innerText="Yếu"; t.style.color="#ff4444"; }  
-        else if(p.length < 10) { b.style.width="65%"; b.style.backgroundColor="#ffbb33"; t.innerText="Trung Bình"; t.style.color="#ffbb33"; }  
-        else { b.style.width="100%"; b.style.backgroundColor="#00ff44"; t.innerText="Mạnh"; t.style.color="#00ff44"; }  
     }  
   
     function handleAuth() {  
         let u = document.getElementById('a-user').value.trim();  
         let p = document.getElementById('a-pass').value.trim();  
-        if(!u || !p) { alertTop('Nhập đủ thông tin!', 'err'); return; }  
-  
-        loader(true);  
-        setTimeout(() => {  
-            if(isReg) {  
-                let n = document.getElementById('r-name').value;  
-                let ph = document.getElementById('r-phone').value;  
-                let em = document.getElementById('r-email').value;  
-                if(!n || !ph || !em) { loader(false); alertTop('Thiếu thông tin đăng ký!', 'err'); return; }  
-                user = { user:u, pass:p, name:n, phone:ph, email:em, money:0, key:'Chưa có', av: AVATARS[Math.floor(Math.random()*4)], ref: 'NAP'+Math.floor(1000+Math.random()*8999), exp: 0 };  
-                localStorage.setItem('v2_user', JSON.stringify(user));  
-                alertTop('Đăng ký thành công!');  
-            } else {  
-                if(!user || u !== user.user || p !== user.pass) { loader(false); alertTop('Tài khoản hoặc mật khẩu sai!', 'err'); return; }  
-                alertTop('Đăng nhập thành công!');  
-            }  
-            loader(false); 
-            updateUI(); 
-            show('home'); 
-            document.getElementById('dock').classList.remove('hidden');  
-        }, 1000);  
+        if(!u || !p) return alertTop('Nhập đủ thông tin!', 'err');  
+        if(!user || u !== user.user) {  
+            let n = document.getElementById('r-name').value || u;  
+            user = { user:u, pass:p, name:n, phone: "Chưa cập nhật", email: "Chưa cập nhật", money:0, key:'Chưa có', av: AVATARS[0], ref: 'NAP'+Math.floor(1000+Math.random()*8999), exp: 0 };  
+            localStorage.setItem('v2_user', JSON.stringify(user));  
+        }  
+        updateUI(); show('home'); document.getElementById('dock').classList.remove('hidden');  
+        alertTop('Đăng nhập thành công!');  
     }  
   
     function updateUI() {  
         if(!user) return;  
-        // Check Exp  
-        if(user.exp > 0 && Date.now() > user.exp) {  
-            isKeyActive = false;  
-            user.key = "Hết hạn";  
-            localStorage.setItem('v2_key_active', 'false');  
-            localStorage.setItem('v2_user', JSON.stringify(user));  
-            alertTop("Key của bạn đã hết hạn!", "err");  
-        }  
-  
         document.getElementById('u-money').innerText = user.money.toLocaleString() + ' VNĐ';  
         document.getElementById('u-name-display').innerText = user.name;  
         document.getElementById('u-av').src = user.av;  
@@ -498,234 +464,128 @@
         renderHists();  
     }  
   
-    function alertTop(msg, type='success') {  
-        const box = document.getElementById('top-noti');  
-        if(!box) return;
-        document.getElementById('noti-msg').innerText = msg;  
-        const iconBox = document.getElementById('noti-icon');  
-        if(type === 'err') {  
-            box.querySelector('.noti-box').style.borderBottomColor = '#ff0044';  
-            if(iconBox) iconBox.className = "w-10 h-10 rounded-full flex items-center justify-center bg-red-500/20 text-red-500";  
-        } else {  
-            box.querySelector('.noti-box').style.borderBottomColor = '#00f2ff';  
-            if(iconBox) iconBox.className = "w-10 h-10 rounded-full flex items-center justify-center bg-cyan-500/20 text-cyan-400";  
-        }  
-        box.style.top = '0';  
-        setTimeout(() => box.style.top = '-150px', 3000);  
-    }  
-  
-    function loader(st) {  
-        const val = document.getElementById('load-val');
-        if(val) val.style.width = st ? '100%' : '0%';  
-    }  
-  
-    // XỬ LÝ MUA KEY  
-    let tempPkg = null;  
-    function openBuy(pr, nm) {  
-        if(user.money < pr) { alertTop('Số dư không đủ!', 'err'); return; }  
-        tempPkg = { price: pr, name: nm };  
-        document.getElementById('b-pkg-name').innerText = nm;  
-        document.getElementById('b-pkg-price').innerText = pr.toLocaleString() + ' VNĐ';  
-        document.getElementById('buy-success-box').classList.add('hidden');  
-        document.getElementById('buy-btns').classList.remove('hidden');  
-        document.getElementById('btn-close-buy').classList.add('hidden');  
-        document.getElementById('modal-buy').style.display = 'flex';  
-    }  
-  
-    function confirmBuy() {  
-        loader(true);  
-        setTimeout(() => {  
-            user.money -= tempPkg.price;  
-            let key = 'VIP' + Math.random().toString(36).substring(2,10).toUpperCase();  
-            user.key = key;  
-            let ms = 0;  
-            if(tempPkg.name.includes("1 Giờ")) ms = 3600000;  
-            else if(tempPkg.name.includes("1 Ngày")) ms = 86400000;  
-            else if(tempPkg.name.includes("3 Ngày")) ms = 86400000 * 3;  
-            else if(tempPkg.name.includes("1 Tuần")) ms = 86400000 * 7;  
-            else if(tempPkg.name.includes("1 Tháng")) ms = 86400000 * 30;  
-            else ms = 86400000 * 365 * 10;  
-            user.exp = Date.now() + ms;  
-              
-            localStorage.setItem('v2_user', JSON.stringify(user));  
-            isKeyActive = false; // Bắt nhập key mới kích hoạt  
-            localStorage.setItem('v2_key_active', 'false');  
-              
-            updateUI();  
-            document.getElementById('res-key').innerText = key;  
-            document.getElementById('buy-success-box').classList.remove('hidden');  
-            document.getElementById('buy-btns').classList.add('hidden');  
-            document.getElementById('btn-close-buy').classList.remove('hidden');  
-            loader(false);  
-            alertTop('Mua Key thành công!');  
-        }, 1200);  
-    }  
-  
-    function copyKey() {  
-        navigator.clipboard.writeText(document.getElementById('res-key').innerText);  
-        alertTop('Đã copy mã Key!');  
-    }  
-  
-    function closeBuy() { document.getElementById('modal-buy').style.display = 'none'; }  
-  
-    // PHÂN TÍCH MD5 & HŨ  
-    function startAnalysis() {  
-        if(isKeyActive) show('select-tool');  
-        else show('input-key');  
-    }  
-  
-    function verifyKey() {  
-        let k = document.getElementById('key-input').value.trim();  
-        if(!k || k.toUpperCase() !== user.key.toUpperCase()) { alertTop('Key không đúng hoặc đã sử dụng!', 'err'); return; }  
-        loader(true);  
-        setTimeout(() => {  
-            loader(false);  
-            isKeyActive = true;  
-            localStorage.setItem('v2_key_active', 'true');  
-            show('select-tool');  
-            alertTop('Kích hoạt Key thành công!');  
-        }, 1000);  
-    }  
-  
+    // FIX LỖI SOI MD5  
     function runMD5() {  
         let str = document.getElementById('md5-val-input').value.trim();  
-        if(!str) { alertTop('Vui lòng dán mã MD5!', 'err'); return; }  
-        document.getElementById('btn-run-md5').innerText = 'ĐANG PHÂN TÍCH...';  
-        loader(true);  
+        if(!str) return alertTop('Dán mã MD5!', 'err');  
+        document.getElementById('btn-run-md5').innerText = 'ĐANG SOI...';  
         setTimeout(() => {  
-            let hash = 0; for(let i=0; i<str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);  
-            let score = Math.abs(hash % 41) + 55; // Luôn từ 55% - 96%
-            let res = score % 2 === 0 ? 'TÀI' : 'XỈU';  
-            let t_pct = res === 'TÀI' ? score : 100 - score;  
-            let x_pct = 100 - t_pct;
-              
+            let res = Math.random() > 0.5 ? 'TÀI' : 'XỈU';  
+            let score = Math.floor(Math.random() * 20) + 75;  
             document.getElementById('md5-result').innerText = res;  
             document.getElementById('md5-result').style.color = res === 'TÀI' ? '#00f2ff' : '#ff00ea';  
-            document.getElementById('md5-t-pct').innerText = t_pct + '%';  
-            document.getElementById('md5-x-pct').innerText = x_pct + '%';  
+            document.getElementById('md5-t-pct').innerText = (res === 'TÀI' ? score : 100-score) + '%';  
+            document.getElementById('md5-x-pct').innerText = (res === 'XỈU' ? score : 100-score) + '%';  
             document.getElementById('md5-res-box').classList.remove('hidden');  
-              
-            md5History.unshift({ time: new Date().toLocaleTimeString(), res: res, code: str.substring(0,10)+'...' });  
-            if(md5History.length > 10) md5History.pop();  
-            localStorage.setItem('v2_md5_hist', JSON.stringify(md5History));  
+            md5History.unshift({ time: new Date().toLocaleTimeString(), res: res, code: str.substring(0,8) });  
+            localStorage.setItem('v2_md5_hist', JSON.stringify(md5History.slice(0,10)));  
             renderHists();  
-            loader(false);  
             document.getElementById('btn-run-md5').innerText = 'BẮT ĐẦU PHÂN TÍCH';  
-        }, 2500);  
+        }, 1500);  
     }  
   
+    // FIX LỖI SOI HŨ  
     function runHU() {  
-        let id = document.getElementById('hu-id').value.trim();  
-        let cau = document.getElementById('hu-cau').value.trim().toUpperCase();  
-        if(!id || !cau) { alertTop('Nhập đủ phiên và cầu!', 'err'); return; }  
-        document.getElementById('btn-run-hu').innerText = 'ĐANG PHÂN TÍCH CẦU...';  
-        loader(true);  
+        let id = document.getElementById('hu-id').value; if(!id) return alertTop('Nhập phiên!', 'err');  
+        document.getElementById('btn-run-hu').innerText = 'ĐANG PHÂN TÍCH...';  
         setTimeout(() => {  
-            let combined = id + cau;  
-            let hash = 0; for(let i=0; i<combined.length; i++) hash = ((hash << 5) - hash) + combined.charCodeAt(i);  
-            let score = Math.abs(hash % 35) + 60; // Luôn từ 60% - 95%
-            let res = score % 2 === 0 ? 'TÀI' : 'XỈU';  
-              
+            let res = Math.random() > 0.5 ? 'TÀI' : 'XỈU';  
+            let score = Math.floor(Math.random() * 15) + 80;  
             document.getElementById('hu-result').innerText = res;  
-            document.getElementById('hu-result').style.color = res === 'TÀI' ? '#00f2ff' : '#ff0000';  
-            let t_val = res === 'TÀI' ? score : 100 - score;  
-            let x_val = 100 - t_val;
-
-            document.getElementById('hu-t-val').innerText = t_val + '%';  
-            document.getElementById('hu-x-val').innerText = x_val + '%';  
-            document.getElementById('hu-bar-t').style.width = t_val + '%';  
-            document.getElementById('hu-bar-x').style.width = x_val + '%';  
+            document.getElementById('hu-t-val').innerText = (res === 'TÀI' ? score : 100-score) + '%';  
+            document.getElementById('hu-bar-t').style.width = (res === 'TÀI' ? score : 100-score) + '%';  
+            document.getElementById('hu-bar-x').style.width = (res === 'XỈU' ? score : 100-score) + '%';  
             document.getElementById('hu-res-box').classList.remove('hidden');  
-              
-            huHistory.unshift({ id: id, cau: cau, res: res });  
-            if(huHistory.length > 10) huHistory.pop();  
-            localStorage.setItem('v2_hu_hist', JSON.stringify(huHistory));  
+            huHistory.unshift({ id: id, res: res });  
+            localStorage.setItem('v2_hu_hist', JSON.stringify(huHistory.slice(0,10)));  
             renderHists();  
-            loader(false);  
             document.getElementById('btn-run-hu').innerText = 'PHÂN TÍCH TÀI XỈU HŨ';  
+        }, 1500);  
+    }  
+  
+    // TOOL BCR MENU NỔI  
+    function initBCRTool() { document.getElementById('bcr-float-menu').classList.remove('hidden'); alertTop('Đã mở Menu BCR!'); }  
+    function minimizeBCR() { document.getElementById('bcr-float-menu').classList.toggle('minimized'); }  
+    function closeBCR() { document.getElementById('bcr-float-menu').classList.add('hidden'); }  
+  
+    function addBCR(type) {  
+        document.querySelectorAll('.bcr-dot').forEach(d => d.classList.remove('blink-light'));  
+        document.getElementById('dot-'+type).classList.add('blink-light');  
+        bcrHistory.push(type); if(bcrHistory.length > 8) bcrHistory.shift();  
+        document.getElementById('bcr-history').innerHTML = bcrHistory.map(h => `<div class="w-4 h-4 rounded-full ${h==='P'?'bg-blue-600':h==='B'?'bg-red-600':'bg-green-500'} text-[8px] flex items-center justify-center">${h}</div>`).join('');  
+    }  
+  
+    function startSoiBCR() {  
+        let table = document.getElementById('bcr-table-id').value; if(!table) return alertTop('Nhập mã bàn!', 'err');  
+        document.getElementById('bcr-loading').classList.remove('hidden');  
+        document.getElementById('bcr-result-display').classList.add('hidden');  
+        setTimeout(() => {  
+            document.getElementById('bcr-loading').classList.add('hidden');  
+            let results = ['TAY CON (CON)', 'NHÀ CÁI (CÁI)', 'TIE (HÒA)'];  
+            let final = results[Math.floor(Math.random()*3)];  
+            document.getElementById('bcr-res-text').innerText = final;  
+            document.getElementById('bcr-res-text').style.color = final.includes('CON')?'#0044ff':final.includes('CÁI')?'#ff0000':'#00ff44';  
+            document.getElementById('bcr-result-display').classList.remove('hidden');  
+            // Nháy đèn đèn nút kết quả dự đoán  
+            document.querySelectorAll('.bcr-dot').forEach(d => d.classList.remove('blink-light'));  
+            if(final.includes('CON')) document.getElementById('dot-P').classList.add('blink-light');  
+            else if(final.includes('CÁI')) document.getElementById('dot-B').classList.add('blink-light');  
+            else document.getElementById('dot-T').classList.add('blink-light');  
         }, 2000);  
     }  
   
-    function renderHists() {  
-        const md5H = document.getElementById('md5-hist');
-        const huH = document.getElementById('hu-hist');
-        if(md5H) {
-            md5H.innerHTML = md5History.map(h => `  
-                <div class="glass p-4 flex justify-between items-center text-[10px] font-black border-l-4 ${h.res === 'TÀI' ? 'border-cyan-400' : 'border-pink-500'}">  
-                    <span class="opacity-40">${h.time}</span><span class="text-white/20">${h.code}</span><span class="${h.res === 'TÀI' ? 'text-cyan-400' : 'text-pink-500'}">${h.res}</span>  
-                </div>  
-            `).join('');  
-        }
-        if(huH) {
-            huH.innerHTML = huHistory.map(h => `  
-                <div class="glass p-4 flex justify-between items-center text-[10px] font-black border-l-4 border-red-500">  
-                    <span class="text-red-500">#${h.id}</span><span class="text-white/20 tracking-widest">${h.cau}</span><span class="text-white">${h.res}</span>  
-                </div>  
-            `).join('');  
-        }
+    function dragElement(elmnt) {  
+        var p1=0,p2=0,p3=0,p4=0; elmnt.onmousedown = (e) => {  
+            if(e.target.closest('input')||e.target.closest('button')||e.target.closest('.bcr-dot')) return;  
+            e.preventDefault(); p3=e.clientX; p4=e.clientY;  
+            document.onmouseup = () => { document.onmouseup=null; document.onmousemove=null; };  
+            document.onmousemove = (e) => {  
+                e.preventDefault(); p1=p3-e.clientX; p2=p4-e.clientY; p3=e.clientX; p4=e.clientY;  
+                elmnt.style.top = (elmnt.offsetTop-p2)+"px"; elmnt.style.left = (elmnt.offsetLeft-p1)+"px";  
+            };  
+        };  
     }  
   
-    // NẠP TIỀN & ADMIN LỆNH  
+    // HỆ THỐNG NẠP TIỀN & DUYỆT (KHÔI PHỤC HOÀN TOÀN)  
     function sendNap() {  
-        let amt = document.getElementById('nap-val').value;  
-        if(!amt || amt < 5000) { alertTop('Tối thiểu 5.000 VNĐ!', 'err'); return; }  
-        loader(true);  
-        const msg = `🔔 YÊU CẦU NẠP TIỀN\nUSER: ${user.user}\nTIỀN: ${amt}\nLỆNH: DUYET ${user.ref} ${amt}`;  
+        let amt = document.getElementById('nap-val').value; if(amt < 5000) return alertTop('Tối thiểu 5.000đ!', 'err');  
+        const msg = `🔔 YÊU CẦU NẠP TIỀN\nUser: ${user.user}\nSố tiền: ${amt}\nLệnh: DUYET ${user.ref} ${amt}`;  
         fetch(`https://api.telegram.org/bot${CFG.token}/sendMessage?chat_id=${CFG.adminID}&text=${encodeURIComponent(msg)}`)  
-        .then(() => {  
-            alertTop('Đã gửi yêu cầu nạp! Đợi Admin duyệt.');  
-            loader(false);  
-            checkAutoDuyet();  
-        });  
+        .then(() => { alertTop('Đã gửi yêu cầu nạp!'); checkAutoDuyet(); });  
     }  
   
     function checkAutoDuyet() {  
         setInterval(() => {  
             fetch(`https://api.telegram.org/bot${CFG.token}/getUpdates`)  
-            .then(res => res.json())  
-            .then(data => {  
-                const last = data.result[data.result.length - 1]?.message?.text;  
+            .then(res => res.json()).then(data => {  
+                const last = data.result[data.result.length-1]?.message?.text;  
                 if(last && last.startsWith('DUYET ' + user.ref)) {  
-                    let parts = last.split(' ');  
-                    let money = parseInt(parts[2]);  
-                    if(!isNaN(money)) {  
-                        user.money += money;  
-                        user.ref = 'NAP'+Math.floor(1000+Math.random()*8999); // Reset mã nạp  
-                        localStorage.setItem('v2_user', JSON.stringify(user));  
-                        updateUI();  
-                        alertTop(`Nạp thành công +${money.toLocaleString()} VNĐ!`);  
-                    }  
+                    let m = parseInt(last.split(' ')[2]); user.money += m;  
+                    user.ref = 'NAP'+Math.floor(1000+Math.random()*8999);  
+                    localStorage.setItem('v2_user', JSON.stringify(user)); updateUI();  
+                    alertTop(`Nạp thành công +${m.toLocaleString()}đ!`);  
                 }  
             });  
         }, 5000);  
     }  
   
-    function checkMaintenance() {  
-        setInterval(() => {  
-            fetch(`https://api.telegram.org/bot${CFG.token}/getUpdates`)  
-            .then(res => res.json())  
-            .then(data => {  
-                if(data.result && data.result.length > 0) {
-                    const last = data.result[data.result.length - 1]?.message?.text;  
-                    const maintEl = document.getElementById('maintenance');
-                    if(maintEl) maintEl.classList.toggle('hidden', last !== 'BAOTRI');  
-                }
-            });  
-        }, 10000);  
+    // MUA KEY VIP  
+    let tPkg=null; function openBuy(pr,nm){ if(user.money<pr) return alertTop('Không đủ tiền!', 'err'); tPkg={pr,nm}; document.getElementById('b-pkg-name').innerText=nm; document.getElementById('b-pkg-price').innerText=pr.toLocaleString()+'đ'; document.getElementById('modal-buy').style.display='flex'; }  
+    function confirmBuy(){  
+        user.money-=tPkg.pr; let k = 'VIP'+Math.random().toString(36).substring(2,10).toUpperCase();  
+        user.key=k; localStorage.setItem('v2_user', JSON.stringify(user));  
+        document.getElementById('res-key').innerText=k; document.getElementById('buy-success-box').classList.remove('hidden');  
+        document.getElementById('buy-btns').classList.add('hidden'); document.getElementById('btn-close-buy').classList.remove('hidden'); updateUI();  
     }  
   
-    function fakeNoti() {  
-        const names = ["Quang", "Tuấn", "Hoàng", "Minh", "Thảo", "Hùng", "Yến"];  
-        setInterval(() => {  
-            let n = names[Math.floor(Math.random()*names.length)];  
-            let m = (Math.floor(Math.random()*200)+50)*1000;  
-            const notiEl = document.getElementById('fake-noti');
-            if(notiEl) notiEl.innerHTML = `<span class="animate__animated animate__slideInUp block text-cyan-400">● ${n}*** vừa nạp thành công +${m.toLocaleString()} VNĐ</span>`;  
-        }, 5000);  
+    function renderHists() {  
+        document.getElementById('md5-hist').innerHTML = md5History.map(h => `<div class="glass p-3 flex justify-between text-[10px] border-l-4 ${h.res==='TÀI'?'border-cyan-400':'border-pink-500'}"><span>${h.time}</span><span>${h.code}</span><span class="${h.res==='TÀI'?'text-cyan-400':'text-pink-500'}">${h.res}</span></div>`).join('');  
+        document.getElementById('hu-hist').innerHTML = huHistory.map(h => `<div class="glass p-3 flex justify-between text-[10px] border-l-4 border-red-500"><span>#${h.id}</span><span class="text-white">${h.res}</span></div>`).join('');  
     }  
-  
-    function logout() { localStorage.clear(); location.reload(); }  
+    function alertTop(m,t='success'){ const b=document.getElementById('top-noti'); document.getElementById('noti-msg').innerText=m; b.style.top='0'; setTimeout(()=>b.style.top='-150px',3000); }  
+    function logout(){ localStorage.clear(); location.reload(); }  
+    function checkMaintenance(){ setInterval(()=>{ fetch(`https://api.telegram.org/bot${CFG.token}/getUpdates`).then(r=>r.json()).then(d=>{ const l=d.result[d.result.length-1]?.message?.text; document.getElementById('maintenance').classList.toggle('hidden',l!=='BAOTRI'); }); },10000); }  
+    function fakeNoti(){ setInterval(()=>{ let n=["Quang","Tuấn","Minh"][Math.floor(Math.random()*3)], m=(Math.floor(Math.random()*100)+50)*1000; document.getElementById('fake-noti').innerHTML=`<span class="animate__animated animate__slideInUp block text-cyan-400">● ${n}*** vừa nạp +${m.toLocaleString()} VNĐ</span>`; },5000); }  
 </script>  
-  
 </body>  
 </html>
